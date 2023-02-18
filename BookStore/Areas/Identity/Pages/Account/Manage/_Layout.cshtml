@@ -1,0 +1,24 @@
+﻿@{
+    if (ViewData.TryGetValue("ParentLayout", out var parentLayout) && parentLayout !=  null)
+    {
+        Layout = parentLayout.ToString();
+    }
+    else
+    {
+        //Layout = "/Areas/Identity/Pages/_Layout.cshtml";
+        Layout = "/Views/Shared/Admin/_Layout.cshtml";
+    }
+}
+@RenderBody()
+
+@section TopBar {
+    @await Html.PartialAsync("/Views/Shared/Admin/_TopBar.cshtml")
+}
+
+@section SideBar {
+    <partial name="/Areas/Identity/Pages/Account/Manage/_ManageNav.cshtml" />
+}
+
+@section Scripts {
+    @RenderSection("Scripts", required: false)
+}

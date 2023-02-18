@@ -1,0 +1,104 @@
+﻿@using BookStore.Models
+@using Microsoft.AspNetCore.Authorization
+@using Microsoft.AspNetCore.Identity
+@using Microsoft.AspNetCore.Mvc.ViewEngines
+@inject UserManager<AppUser> UserManager
+@inject SignInManager<AppUser> SignInManager
+@{
+    var hasExternalLogins = (await SignInManager.GetExternalAuthenticationSchemesAsync()).Any();
+    string activePage = System.IO.Path.GetFileNameWithoutExtension(ViewContext.ActionDescriptor.DisplayName);
+    Func<string, string, string> ActiveClass = (string activePage, string page) =>
+    {
+        return (activePage == page) ? "active" : "";
+    };
+}
+<ul class="navbar-nav bg-gradient-primary sidebar sidebar-dark accordion" id="accordionSidebar">
+
+
+    <a class="sidebar-brand d-flex align-items-center justify-content-center"
+       asp-action="Index" asp-controller="Home" asp-area="">
+        <div class="sidebar-brand-icon rotate-n-15">
+            <i class="fas fa-laugh-wink"></i>
+        </div>
+        <div class="sidebar-brand-text mx-3">Book Store</div>
+    </a>
+
+
+    <hr class="sidebar-divider my-0">
+
+
+    <div class="sidebar-heading mt-2">
+        Account Management
+    </div>
+
+
+    <li class="nav-item">
+        <a class="nav-link collapsed" href="#" data-bs-toggle="collapse" data-bs-target="#collapseTwo" aria-expanded="true" aria-controls="collapseTwo">
+            <i class="fas fa-fw fa-cog"></i>
+            <span>Personal account</span>
+        </a>
+        <div id="collapseTwo" class="collapse" aria-labelledby="headingTwo" data-bs-parent="#accordionSidebar">
+            <div class="bg-white py-2 collapse-inner rounded">
+                <h6 class="collapse-header">Function</h6>
+                <a class="collapse-item" asp-area="Identity" asp-page="/Account/Manage/Index">Profile</a>
+                <a class="collapse-item" asp-area="Identity" asp-page="/Account/Manage/Email">Email</a>
+                <a class="collapse-item" asp-area="Identity" asp-page="/Account/Manage/ChangePassword">Password</a>
+                @if (hasExternalLogins)
+                {
+                    <a class="collapse-item" asp-page="/Account/Manage/ExternalLogins">External logins</a>
+                }
+                <a class="collapse-item" asp-area="Identity" asp-page="/Account/Manage/TwoFactorAuthentication">Two-factor authentication</a>
+                <a class="collapse-item" asp-area="Identity" asp-page="/Account/Manage/PersonalData">Personal data</a>
+            </div>
+        </div>
+    </li>
+ 
+    @if (User.IsInRole("Admin"))
+    {
+        <li class="nav-item">
+            <a class="nav-link collapsed" href="#" data-bs-toggle="collapse" data-bs-target="#collapseRole" aria-expanded="true" aria-controls="collapseRole">
+                <i class="fas fa-user-cog"></i>
+                <span>Role</span>
+            </a>
+            <div id="collapseRole" class="collapse " aria-labelledby="headingTwo" data-parent="#accordionSidebar">
+                <div class="bg-white py-2 collapse-inner rounded">
+                    <a class="collapse-item @ActiveClass(activePage, "Index")" asp-page="/Role/Index" asp-area="Admin">Roles</a>
+                    <a class="collapse-item @ActiveClass(activePage, "User")" asp-page="/Role/User" asp-area="Admin">Assign roles</a>
+                </div>
+            </div>
+        </li>
+
+
+        <hr class="sidebar-divider d-none d-md-block">
+
+     
+        <div class="sidebar-heading mt-2">
+            Product Management
+        </div>
+
+        <li class="nav-item">
+            <a class="nav-link collapsed" href="#" data-bs-toggle="collapse" data-bs-target="#collapsePosts" aria-expanded="true" aria-controls="collapsePosts">
+            <i class="fas fa-newspaper"></i>
+            <span>Product</span>
+        </a>
+        <div id="collapsePosts" class="collapse" aria-labelledby="headingTwo" data-parent="#accordionSidebar">
+            <div class="bg-white py-2 collapse-inner rounded">
+                <a class="collapse-item" asp-controller="Category" asp-area="Admin"><i class="fas fa-list"></i> Category</a>
+                <a class="collapse-item" asp-controller="Post" asp-area="Admin" asp-action="Index"><i class="fas fa-list"></i> Product</a>
+                <a class="collapse-item" asp-controller="Post" asp-area="Admin" asp-action="Create"><i class="fas fa-plus-circle"></i> Author</a>
+
+            </div>
+        </div>
+    </li>
+
+    }
+
+
+    <hr class="sidebar-divider d-none d-md-block">
+
+
+    <div class="text-center d-none d-md-inline">
+        <button class="rounded-circle border-0" id="sidebarToggle"></button>
+    </div>
+</ul>
+

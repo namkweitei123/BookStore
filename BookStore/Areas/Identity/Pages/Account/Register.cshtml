@@ -1,0 +1,68 @@
+﻿@page "/register/"
+@model RegisterModel
+@{
+    Layout = "/Views/Shared/Admin/_LoginLayout.cshtml";
+    ViewData["Title"] = "Register";
+}
+
+<div class="p-5">
+    <div class="text-center">
+        <h1 class="h4 text-gray-900 mb-4">@ViewData["Title"]</h1>
+        <form id="registerForm" asp-route-returnUrl="@Model.ReturnUrl" method="post">
+            <div asp-validation-summary="All" class="text-danger" role="alert"></div>
+            <div class="form-group row">
+                <div class="col-sm-6 mb-3 mb-sm-0">
+                <input asp-for="Input.FirstName" type="text" class="form-control form-control-user" autocomplete="firstname" aria-required="true" placeholder="First Name" />
+                <span asp-validation-for="Input.FirstName" class="text-danger"></span>
+            </div>
+                <div class="col-sm-6">
+                <input asp-for="Input.LastName" type="text" class="form-control form-control-user" autocomplete="lastname" aria-required="true" placeholder="Last Name" />
+                <span asp-validation-for="Input.LastName" class="text-danger"></span>
+            </div>
+            </div>
+            <div class="form-group">
+              
+                <input asp-for="Input.Email" type="email" class="form-control form-control-user" autocomplete="username" aria-required="true" placeholder="Email Address" />
+                <span asp-validation-for="Input.Email" class="text-danger"></span>
+            </div>
+            <div class="form-group row">
+                <div class="col-sm-6 mb-3 mb-sm-0">
+                <input asp-for="Input.Password" type="password" class="form-control form-control-user" autocomplete="new-password" aria-required="true" placeholder="Password" />
+                <span asp-validation-for="Input.Password" class="text-danger"></span>
+                </div>
+            
+                <div class="col-sm-6">
+                <input asp-for="Input.ConfirmPassword" type="password" class="form-control form-control-user" autocomplete="new-password" aria-required="true" placeholder="Repeat Password" />
+                <span asp-validation-for="Input.ConfirmPassword" class="text-danger"></span>
+                </div>
+            </div>
+            <button id="registerSubmit" type="submit" class="btn btn-primary btn-user btn-block">Register</button>
+            <div class="text-center">
+                <a class="small" asp-page="./Login" asp-route-returnUrl="@Model.ReturnUrl">Already have an account? Login!</a>
+            </div>
+        </form>
+    </div>
+    <div class="col-md-6 col-md-offset-2">
+        <section>
+            @{
+                if ((Model.ExternalLogins?.Count ?? 0) == 0)
+                {
+                    <form id="external-account" asp-page="./ExternalLogin" asp-route-returnUrl="@Model.ReturnUrl" method="post" class="form-horizontal">
+                        <div>
+                            <p>
+                                @foreach (var provider in Model.ExternalLogins)
+                                {
+                                    <button type="submit" class="btn btn-primary" name="provider" value="@provider.Name" title="Log in using your @provider.DisplayName account">@provider.DisplayName</button>
+                                }
+                            </p>
+                        </div>
+                    </form>
+                }
+            }
+        </section>
+    </div>
+</div>
+
+@section Scripts {
+    <partial name="_ValidationScriptsPartial" />
+}

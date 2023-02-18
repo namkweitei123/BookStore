@@ -1,0 +1,49 @@
+﻿@page 
+@model IndexModel
+@{
+    ViewData["Title"] = "Role";
+}
+
+<h1 class="h3 mb-1 text-gray-800">List of roles</h1>
+<partial name="_StatusMessage" model="@Model.StatusMessage" />
+
+<form method="POST" class="my-1 d-inline">
+    <button class="btn btn-secondary" asp-page="./Add" 
+            asp-page-handler="StartNewRole">Add new Role</button>
+</form>
+<a class="btn btn-secondary" asp-page="./User">Assign roles to users</a>
+
+
+<table class="table">
+  <tr>
+    <th>Role ID</th>
+    <th>Name</th>
+    <th>Action</th>
+  </tr>
+  @foreach (var role in @Model.roles)
+  {
+      <tr>
+        <td>@role.Id</td>
+        <td>@role.Name</td>
+        <td>
+            <form method="POST" class="d-inline">
+              <button name="Input.ID" value="@role.Id" class="btn btn-success btn-sm" 
+                      asp-page="./Add" asp-page-handler="StartUpdate">Updae Role</button>
+            </form>
+
+            
+
+            <a name="rolename"  class="btn btn-success btn-sm" 
+                      asp-route-roleid ="@role.Id"
+                      asp-area="Admin"
+                      asp-page="/RoleClaims/Index">Claims</a>
+
+            <form method="POST" class="d-inline">
+              <button name="Input.ID" value="@role.Id" class="btn btn-success btn-sm" 
+                      asp-page="./Delete">Delete Role</button>
+            </form>
+
+        </td>
+      </tr>
+  }
+</table>
