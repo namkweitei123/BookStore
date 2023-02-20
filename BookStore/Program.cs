@@ -12,6 +12,11 @@ builder.Services.AddIdentity<AppUser, IdentityRole>()
         .AddEntityFrameworkStores<ApplicationDbContext>()
         .AddDefaultUI()
         .AddDefaultTokenProviders();
+builder.Services.ConfigureApplicationCookie(options => {
+    options.LoginPath = $"/login/";
+    options.LogoutPath = $"/logout/";
+    options.AccessDeniedPath = $"/Identity/Account/AccessDenied";
+});
 builder.Services.AddControllersWithViews();
 builder.Services.AddRazorPages();
 

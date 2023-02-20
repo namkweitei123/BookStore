@@ -9,8 +9,12 @@ using Microsoft.AspNetCore.Mvc;
 using Microsoft.AspNetCore.Mvc.RazorPages;
 using Microsoft.Extensions.Logging;
 using Microsoft.EntityFrameworkCore;
+using BookStore.Enums;
+using Microsoft.AspNetCore.Authorization;
 
 namespace Album.Areas.Admin.Pages.Role {
+
+    [Authorize(Roles = "Admin")]
     public class UserModel : PageModel {
         const int USER_PER_PAGE = 10;
         private readonly RoleManager<IdentityRole> _roleManager;

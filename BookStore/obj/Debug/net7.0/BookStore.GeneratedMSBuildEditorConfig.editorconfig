@@ -16,38 +16,6 @@ build_property.GenerateRazorMetadataSourceChecksumAttributes =
 build_property.MSBuildProjectDirectory = C:\Users\taoma\source\repos\BookStore\BookStore
 build_property._RazorSourceGeneratorDebug = 
 
-[C:/Users/taoma/source/repos/BookStore/BookStore/Areas/Admin/Pages/RoleClaims/Create.cshtml]
-build_metadata.AdditionalFiles.TargetPath = QXJlYXNcQWRtaW5cUGFnZXNcUm9sZUNsYWltc1xDcmVhdGUuY3NodG1s
-build_metadata.AdditionalFiles.CssScope = 
-
-[C:/Users/taoma/source/repos/BookStore/BookStore/Areas/Admin/Pages/RoleClaims/Delete.cshtml]
-build_metadata.AdditionalFiles.TargetPath = QXJlYXNcQWRtaW5cUGFnZXNcUm9sZUNsYWltc1xEZWxldGUuY3NodG1s
-build_metadata.AdditionalFiles.CssScope = 
-
-[C:/Users/taoma/source/repos/BookStore/BookStore/Areas/Admin/Pages/RoleClaims/Edit.cshtml]
-build_metadata.AdditionalFiles.TargetPath = QXJlYXNcQWRtaW5cUGFnZXNcUm9sZUNsYWltc1xFZGl0LmNzaHRtbA==
-build_metadata.AdditionalFiles.CssScope = 
-
-[C:/Users/taoma/source/repos/BookStore/BookStore/Areas/Admin/Pages/RoleClaims/Index.cshtml]
-build_metadata.AdditionalFiles.TargetPath = QXJlYXNcQWRtaW5cUGFnZXNcUm9sZUNsYWltc1xJbmRleC5jc2h0bWw=
-build_metadata.AdditionalFiles.CssScope = 
-
-[C:/Users/taoma/source/repos/BookStore/BookStore/Areas/Admin/Pages/RoleClaims/_Layout.cshtml]
-build_metadata.AdditionalFiles.TargetPath = QXJlYXNcQWRtaW5cUGFnZXNcUm9sZUNsYWltc1xfTGF5b3V0LmNzaHRtbA==
-build_metadata.AdditionalFiles.CssScope = 
-
-[C:/Users/taoma/source/repos/BookStore/BookStore/Areas/Admin/Pages/RoleClaims/_StatusMessage.cshtml]
-build_metadata.AdditionalFiles.TargetPath = QXJlYXNcQWRtaW5cUGFnZXNcUm9sZUNsYWltc1xfU3RhdHVzTWVzc2FnZS5jc2h0bWw=
-build_metadata.AdditionalFiles.CssScope = 
-
-[C:/Users/taoma/source/repos/BookStore/BookStore/Areas/Admin/Pages/RoleClaims/_ViewImports.cshtml]
-build_metadata.AdditionalFiles.TargetPath = QXJlYXNcQWRtaW5cUGFnZXNcUm9sZUNsYWltc1xfVmlld0ltcG9ydHMuY3NodG1s
-build_metadata.AdditionalFiles.CssScope = 
-
-[C:/Users/taoma/source/repos/BookStore/BookStore/Areas/Admin/Pages/RoleClaims/_ViewStart.cshtml]
-build_metadata.AdditionalFiles.TargetPath = QXJlYXNcQWRtaW5cUGFnZXNcUm9sZUNsYWltc1xfVmlld1N0YXJ0LmNzaHRtbA==
-build_metadata.AdditionalFiles.CssScope = 
-
 [C:/Users/taoma/source/repos/BookStore/BookStore/Areas/Admin/Pages/Role/Add.cshtml]
 build_metadata.AdditionalFiles.TargetPath = QXJlYXNcQWRtaW5cUGFnZXNcUm9sZVxBZGQuY3NodG1s
 build_metadata.AdditionalFiles.CssScope = 

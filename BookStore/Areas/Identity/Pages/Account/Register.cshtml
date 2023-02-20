@@ -40,6 +40,9 @@
             <div class="text-center">
                 <a class="small" asp-page="./Login" asp-route-returnUrl="@Model.ReturnUrl">Already have an account? Login!</a>
             </div>
+            <div class="text-center">
+                <a class="small" asp-action="Index" asp-controller="Home" asp-area="" asp-route-returnUrl="@Model.ReturnUrl">Return Home Page</a>
+            </div>
         </form>
     </div>
     <div class="col-md-6 col-md-offset-2">

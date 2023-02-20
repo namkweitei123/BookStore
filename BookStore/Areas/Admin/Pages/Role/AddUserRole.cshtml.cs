@@ -3,7 +3,9 @@ using System.Collections.Generic;
 using System.ComponentModel.DataAnnotations;
 using System.Linq;
 using System.Threading.Tasks;
+using BookStore.Enums;
 using BookStore.Models;
+using Microsoft.AspNetCore.Authorization;
 using Microsoft.AspNetCore.Identity;
 using Microsoft.AspNetCore.Mvc;
 using Microsoft.AspNetCore.Mvc.RazorPages;
@@ -11,7 +13,8 @@ using Microsoft.EntityFrameworkCore;
 using Microsoft.Extensions.Logging;
 
 namespace Album.Areas.Admin.Pages.Role {
-  public class AddUserRole : PageModel {
+    [Authorize(Roles = "Admin")]
+    public class AddUserRole : PageModel {
     private readonly RoleManager<IdentityRole> _roleManager;
     private readonly UserManager<AppUser> _userManager;
 
