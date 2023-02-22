@@ -16,6 +16,7 @@ namespace BookStore.Controllers
     {
         private readonly ILogger<HomeController> _logger;
         private readonly ApplicationDbContext _context;
+
         public HomeController(ILogger<HomeController> logger, ApplicationDbContext context)
         {
             _logger = logger;
@@ -41,35 +42,36 @@ namespace BookStore.Controllers
             return View(new ErrorViewModel { RequestId = Activity.Current?.Id ?? HttpContext.TraceIdentifier });
         }
 
-      
-       
+
+
+        //GET ALL PRODUCT
         public List<Book> getAllBook()
         {
             return _context.Book.ToList();
         }
 
-        //GET DETAIL Book
-        public Book getDetailBook(int id)
+        //GET DETAIL PRODUCT
+        public Book getDetailProduct(int id)
         {
-            var Book = _context.Book.Find(id);
-            return Book;
+            var book = _context.Book.Find(id);
+            return book;
         }
 
         //ADD CART
         public IActionResult addCart(int id)
         {
-            var cart = HttpContext.Session.GetString("cart");//get key cart
+            var cart = HttpContext.Session.GetString("cart"); //get key cart
             if (cart == null)
             {
-                var Book = getDetailBook(id);
+                var book = getDetailProduct(id);
                 List<Cart> listCart = new List<Cart>()
-               {
-                   new Cart
-                   {
-                       Book = Book,
-                       Quantity = 1
-                   }
-               };
+                {
+                    new Cart
+                    {
+                        Book = book,
+                        Quantity = 1
+                    }
+                };
                 HttpContext.Session.SetString("cart", JsonConvert.SerializeObject(listCart));
 
             }
@@ -85,14 +87,16 @@ namespace BookStore.Controllers
                         check = false;
                     }
                 }
+
                 if (check)
                 {
                     dataCart.Add(new Cart
                     {
-                        Book = getDetailBook(id),
+                        Book = getDetailProduct(id),
                         Quantity = 1
                     });
                 }
+
                 HttpContext.Session.SetString("cart", JsonConvert.SerializeObject(dataCart));
                 // var cart2 = HttpContext.Session.GetString("cart");//get key cart
                 //  return Json(cart2);
@@ -104,7 +108,7 @@ namespace BookStore.Controllers
 
         public IActionResult ListCart()
         {
-            var cart = HttpContext.Session.GetString("cart");//get key cart
+            var cart = HttpContext.Session.GetString("cart"); //get key cart
             if (cart != null)
             {
                 List<Cart> dataCart = JsonConvert.DeserializeObject<List<Cart>>(cart);
@@ -114,6 +118,7 @@ namespace BookStore.Controllers
                     return View();
                 }
             }
+
             return RedirectToAction(nameof(Index));
         }
 
@@ -134,13 +139,13 @@ namespace BookStore.Controllers
                             dataCart[i].Quantity = quantity;
                         }
                     }
-
-
                     HttpContext.Session.SetString("cart", JsonConvert.SerializeObject(dataCart));
                 }
+
                 var cart2 = HttpContext.Session.GetString("cart");
                 return Ok(quantity);
             }
+
             return BadRequest();
 
         }
@@ -159,10 +164,14 @@ namespace BookStore.Controllers
                         dataCart.RemoveAt(i);
                     }
                 }
+
                 HttpContext.Session.SetString("cart", JsonConvert.SerializeObject(dataCart));
                 return RedirectToAction(nameof(ListCart));
             }
+
             return RedirectToAction(nameof(Index));
         }
+        
+        
     }
 }

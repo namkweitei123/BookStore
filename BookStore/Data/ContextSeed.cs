@@ -22,6 +22,7 @@ namespace BookStore.Data
                 Email = "admin@gmail.com",
                 FirstName = "Nam",
                 LastName = "Nguyen",
+                Address = "hanoi",
                 EmailConfirmed = true,
                 PhoneNumberConfirmed = true
             };
@@ -34,7 +35,6 @@ namespace BookStore.Data
                     await userManager.AddToRoleAsync(defaultUser, Enums.Roles.Basic.ToString());
                     await userManager.AddToRoleAsync(defaultUser, Enums.Roles.Admin.ToString());
                 }
-
             }
         }
     }
