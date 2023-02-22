@@ -34,20 +34,20 @@ namespace Album.Areas.Admin.Pages.Role {
     [BindProperty]
     public bool isConfirmed { set; get; }
 
-    [TempData] // Sử dụng Session
+    [TempData] 
     public string StatusMessage { get; set; }
 
-    public IActionResult OnGet () => NotFound ("Không thấy");
+    public IActionResult OnGet () => NotFound ("Not found");
 
     public async Task<IActionResult> OnPost () {
 
       if (!ModelState.IsValid) {
-        return NotFound ("Không xóa được");
+        return NotFound ("Can not delete");
       }
 
       var role = await _roleManager.FindByIdAsync (Input.ID);
       if (role == null) {
-        return NotFound ("Không thấy role cần xóa");
+        return NotFound ("Can't see the role to delete");
       }
 
       ModelState.Clear ();
@@ -55,7 +55,7 @@ namespace Album.Areas.Admin.Pages.Role {
       if (isConfirmed) {
         //Xóa
         await _roleManager.DeleteAsync (role);
-        StatusMessage = "Đã xóa " + role.Name;
+        StatusMessage = "ĐãDeleted " + role.Name;
 
         return RedirectToPage ("Index");
       } else {

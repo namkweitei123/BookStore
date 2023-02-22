@@ -49,26 +49,8 @@ namespace Album.Areas.Admin.Pages.Role {
 
         public async Task<IActionResult> OnGet() {
         
-            var cuser = await _userManager.GetUserAsync(User);
-
-        //    await _userManager.AddClaimAsync(cuser, new  System.Security.Claims.Claim("X", "G"));
+           var cuser = await _userManager.GetUserAsync(User);
            var roleeditor = await _roleManager.FindByNameAsync("Editor");
-            // await _roleManager.AddClaimAsync(roleeditor, new System.Security.Claims.Claim("X", "Y"));
-        //    await _roleManager.AddClaimAsync(roleeditor, new System.Security.Claims.Claim("X", "Z"));
-
-            // var cls = await _userManager.GetClaimsAsync(cuser);
-            // foreach(var cl in cls) {
-            //     Console.WriteLine("User Claim" + cl.Type+ "       Value:" + cl.Value);
-            // }
-
-            // cls = await _roleManager.GetClaimsAsync(roleeditor);
-            // foreach(var cl in cls) {
-            //     Console.WriteLine("Role Claim" + cl.Type+ "       Value:" + cl.Value);
-            // }   
-            
-            
-
-
             if (pageNumber == 0) 
                 pageNumber = 1; 
 
@@ -86,11 +68,6 @@ namespace Album.Areas.Admin.Pages.Role {
 
             users = await lusers.Skip(USER_PER_PAGE * (pageNumber - 1)).Take(USER_PER_PAGE).ToListAsync();
         
-            // users.ForEach(async (user) => {
-            //     var roles = await _userManager.GetRolesAsync(user);
-            //     user.listroles = string.Join(",", roles.ToList());
-            // });
-
             foreach (var user in users)
             {
                 var roles = await _userManager.GetRolesAsync(user);

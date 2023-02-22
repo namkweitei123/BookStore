@@ -23,7 +23,7 @@ namespace Album.Areas.Admin.Pages.Role
         }
         public List<IdentityRole> roles {set; get;}
 
-        [TempData] // Sử dụng Session lưu thông báo
+        [TempData] 
         public string StatusMessage { get; set; }
  
         public async Task<IActionResult> OnGet()

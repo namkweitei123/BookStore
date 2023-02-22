@@ -2,6 +2,7 @@
 using Microsoft.AspNetCore.Identity;
 using Microsoft.AspNetCore.Identity.EntityFrameworkCore;
 using Microsoft.EntityFrameworkCore;
+using BookStore.Models;
 
 namespace BookStore.Data
 {
@@ -44,5 +45,7 @@ namespace BookStore.Data
                 entity.ToTable("UserTokens");
             });
         }
+        public DbSet<Book> Book { get; set; } = default!;
+      
     }
 }

@@ -18,6 +18,12 @@ builder.Services.ConfigureApplicationCookie(options => {
     options.AccessDeniedPath = $"/Identity/Account/AccessDenied";
 });
 builder.Services.AddControllersWithViews();
+builder.Services.AddMvc();
+//Set Session Timeout. Default is 20 minutes.
+builder.Services.AddSession(options =>
+{
+    options.IdleTimeout = TimeSpan.FromMinutes(30);
+});
 builder.Services.AddRazorPages();
 
 var app = builder.Build();
@@ -57,7 +63,7 @@ app.UseStaticFiles();
 app.UseRouting();
 
 app.UseAuthorization();
-
+app.UseSession();
 app.MapControllerRoute(
     name: "default",
     pattern: "{controller=Home}/{action=Index}/{id?}");

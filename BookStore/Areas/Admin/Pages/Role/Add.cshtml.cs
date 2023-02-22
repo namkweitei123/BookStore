@@ -26,9 +26,9 @@ namespace Album.Areas.Admin.Pages.Role {
         public class InputModel {
             public string ID { set; get; }
 
-            [Required (ErrorMessage = "Phải nhập tên role")]
-            [Display (Name = "Tên của Role")]
-            [StringLength (100, ErrorMessage = "{0} dài {2} đến {1} ký tự.", MinimumLength = 3)]
+            [Required (ErrorMessage = "Must enter role name")]
+            [Display (Name = "Name of Role")]
+            [StringLength (100, ErrorMessage = "{0} long {2} to {1} characters.", MinimumLength = 3)]
             public string Name { set; get; }
 
         }
@@ -38,10 +38,10 @@ namespace Album.Areas.Admin.Pages.Role {
         [BindProperty]
         public bool IsUpdate { set; get; }
 
-        public IActionResult OnGet () => NotFound ("Không thấy");
-        public IActionResult OnPost () => NotFound ("Không thấy");
+        public IActionResult OnGet () => NotFound ("Not found");
+        public IActionResult OnPost () => NotFound ("Not found");
         public IActionResult OnPostStartNewRole () {
-            StatusMessage = "Hãy nhập thông tin để tạo role mới";
+            StatusMessage = "Please enter information to create a new role";
             IsUpdate = false;
             ModelState.Clear ();
             return Page ();
@@ -50,16 +50,16 @@ namespace Album.Areas.Admin.Pages.Role {
             StatusMessage = null;
             IsUpdate = true;
             if (Input.ID == null) {
-                StatusMessage = "Error: Không có thông tin về Role";
+                StatusMessage = "Error: No information about Role";
                 return Page ();
             }
             var result = await _roleManager.FindByIdAsync (Input.ID);
             if (result != null) {
                 Input.Name = result.Name;
-                ViewData["Title"] = "Cập nhật role : " + Input.Name;
+                ViewData["Title"] = "Update roles : " + Input.Name;
                 ModelState.Clear ();
             } else {
-                StatusMessage = "Error: Không có thông tin về Role ID = " + Input.ID;
+                StatusMessage = "Error: No information about Role ID= " + Input.ID;
             }
 
             return Page ();
@@ -76,7 +76,7 @@ namespace Album.Areas.Admin.Pages.Role {
                 // CẬP NHẬT
                 if (Input.ID == null) {
                     ModelState.Clear ();
-                    StatusMessage = "Error: Không có thông tin về role";
+                    StatusMessage = "Error: No information about role";
                     return Page ();
                 }
                 var result = await _roleManager.FindByIdAsync (Input.ID);
@@ -84,7 +84,7 @@ namespace Album.Areas.Admin.Pages.Role {
                     result.Name = Input.Name;
                     var roleUpdateRs = await _roleManager.UpdateAsync (result);
                     if (roleUpdateRs.Succeeded) {
-                        StatusMessage = "Đã cập nhật role thành công";
+                        StatusMessage = "The role has been updated successfully";
                     } else {
                         StatusMessage = "Error: ";
                         foreach (var er in roleUpdateRs.Errors) {
@@ -92,7 +92,7 @@ namespace Album.Areas.Admin.Pages.Role {
                         }
                     }
                 } else {
-                    StatusMessage = "Error: Không tìm thấy Role cập nhật";
+                    StatusMessage = "Error: Updated Role not found";
                 }
 
             } else {
@@ -100,7 +100,7 @@ namespace Album.Areas.Admin.Pages.Role {
                 var newRole = new IdentityRole (Input.Name);
                 var rsNewRole = await _roleManager.CreateAsync (newRole);
                 if (rsNewRole.Succeeded) {
-                    StatusMessage = $"Đã tạo role mới thành công: {newRole.Name}";
+                    StatusMessage = $"New role created successfully: {newRole.Name}";
                     return RedirectToPage("./Index");
                 } else {
                     StatusMessage = "Error: ";

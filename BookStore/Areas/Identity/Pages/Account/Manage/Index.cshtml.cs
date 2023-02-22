@@ -66,7 +66,10 @@ namespace BookStore.Areas.Identity.Pages.Account.Manage
             [Display(Name = "Phone number")]
             public string PhoneNumber { get; set; }
             [Display(Name = "Profile Picture")]
+            public string Address { get; set; }
+            [Display(Name ="Address")]
             public byte[] ProfilePicture { get; set; }
+
         }
 
         private async Task LoadAsync(AppUser user)
@@ -75,14 +78,15 @@ namespace BookStore.Areas.Identity.Pages.Account.Manage
             var phoneNumber = await _userManager.GetPhoneNumberAsync(user);
             var firstName = user.FirstName;
             var lastName = user.LastName;
-
+            var addresss = user.Address;
             Username = userName;
 
             Input = new InputModel
             {
                 PhoneNumber = phoneNumber,
                 FirstName = firstName,
-                LastName = lastName
+                LastName = lastName,
+                Address= addresss
             };
         }
 
@@ -124,6 +128,7 @@ namespace BookStore.Areas.Identity.Pages.Account.Manage
             }
             var firstName = user.FirstName;
             var lastName = user.LastName;
+            var address = user.Address;
             if (Input.FirstName != firstName)
             {
                 user.FirstName = Input.FirstName;
@@ -134,6 +139,11 @@ namespace BookStore.Areas.Identity.Pages.Account.Manage
                 user.LastName = Input.LastName;
                 await _userManager.UpdateAsync(user);
             }
+            if(Input.Address != address)
+            {
+               user.Address = Input.Address;
+                await _userManager.UpdateAsync(user);
+            }    
 
             await _signInManager.RefreshSignInAsync(user);
             StatusMessage = "Your profile has been updated";

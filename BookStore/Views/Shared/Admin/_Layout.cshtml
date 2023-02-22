@@ -1,4 +1,25 @@
-﻿<!DOCTYPE html>
+﻿@using Newtonsoft.Json
+@{
+    var data = Context.Session.GetString("cart");
+
+    int coutCart = 0;
+    if (data == null)
+    {
+        coutCart = 0;
+    }
+    else
+    {
+        var data2 = Context.Session.GetString("cart");
+        List<Cart> dataCart = JsonConvert.DeserializeObject<List<Cart>>(data2);
+        foreach (var item in dataCart)
+        {
+            coutCart += item.Quantity;
+        }
+
+    }
+
+}
+<!DOCTYPE html>
 <html lang="en">
 <head>
     <meta charset="utf-8" />
@@ -22,6 +43,14 @@
             <div id="content">
                 @await RenderSectionAsync("TopBar", false)
                 <div class="container-fluid">
+                    <a asp-area=""
+                    asp-controller="Home"
+                       asp-action="ListCart"
+               style="background:red;padding:10px;">
+                Cart
+                <img src="~/images/cart.png" style="width:25px !important;height:25px;display:inline-block;" />
+                        @coutCart
+            </a        >
                     @RenderBody()
                 </div>
             </div>
@@ -29,7 +58,7 @@
 
             <footer class="sticky-footer bg-white">
                 <div class="container my-auto">
-                    &copy; 2020 - mvcblog - <a asp-area="" asp-controller="Home" asp-action="Privacy">Privacy</a>
+                   <a asp-area="" asp-controller="Home" asp-action="Privacy">Privacy</a>
                 </div>
             </footer>
 

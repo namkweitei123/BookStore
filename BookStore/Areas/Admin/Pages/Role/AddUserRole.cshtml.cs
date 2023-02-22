@@ -43,7 +43,7 @@ namespace Album.Areas.Admin.Pages.Role {
     [TempData] // Sử dụng Session
     public string StatusMessage { get; set; }
 
-    public IActionResult OnGet () => NotFound ("Không thấy");
+    public IActionResult OnGet () => NotFound ("Not Found");
 
     public List<string> AllRoles {set; get;} = new List<string>();
 
@@ -52,7 +52,7 @@ namespace Album.Areas.Admin.Pages.Role {
       
       var user = await _userManager.FindByIdAsync (Input.ID);
       if (user == null) {
-        return NotFound ("Không thấy role cần xóa");
+        return NotFound ("KCan't see the role to delete");
       }
 
       var roles    = await _userManager.GetRolesAsync(user);
@@ -70,7 +70,7 @@ namespace Album.Areas.Admin.Pages.Role {
       }
       else {
         // Update add and remove
-        StatusMessage = "Vừa cập nhật";
+        StatusMessage = "Just updated";
         if (Input.RoleNames == null) Input.RoleNames = new string[] {};
         foreach (var rolename in Input.RoleNames)
         {
