@@ -1,5 +1,4 @@
-﻿
-@{
+﻿@{
     ViewData["Title"] = "ListCart";
     Layout = "~/Views/Shared/_Layout.cshtml";
 }
@@ -11,7 +10,7 @@
 <script src="~/js/jquery.min.js"></script>
 <script>
     $(document).ready(function () {
-        $(".updateCart").click(function (event) {
+        $("updateCart").click(function (event) {
             event.preventDefault();
             var quantity = $(".quantity_" + $(this).attr("data-id")).val();
             console.log(quantity);
@@ -57,8 +56,14 @@
                     <td><input type="number" class="@txt_class" value="@item.Quantity" /></td>
                     <td>@item.Book.Price</td>
                     <td>@total</td>
-                    <td><a href="" data-id="@item.Book.Id" class="updateCart" type="submit">Update</a></td>
-                    <td><a asp-controller="Home" asp-action="deleteCart" asp-route-id="@item.Book.Id">Delete</a></td>
+                    <td>
+                        <button data-id="@item.Book.Id" class="btn btn-success updateCart" asp-action="updateCart"
+                                asp-route-id="@item.Book.Id">Update</button>
+                        <a asp-action="deleteCart" asp-route-id="@item.Book.Id"
+                           class="btn btn-danger">Delete</a>
+                    </td>
+                    @* <td><a href="" data-id="@item.Book.Id" class="updateCart" type="submit">Update</a></td> *@
+                    @* <td><a asp-controller="Home" asp-action="deleteCart" asp-route-id="@item.Book.Id">Delete</a></td> *@
                 </tr>
             }
         }

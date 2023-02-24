@@ -1,11 +1,7 @@
 ﻿@model BookStore.Models.Book
-
 @{
     ViewData["Title"] = "Create";
 }
-
-<h1>Create</h1>
-
 <h4>Book</h4>
 <hr />
 <div class="row">
@@ -33,8 +29,9 @@
                 <span asp-validation-for="ImageUrl" class="text-danger"></span>
             </div>
             <div class="form-group">
-                <label asp-for="CategoryId" class="control-label"></label>
-                <input asp-for="CategoryId" class="form-control" />
+                <label asp-for="CategoryId" class="control-label">Category</label>
+                <select asp-for="CategoryId" class="form-control" asp-items="@(new SelectList(ViewBag.CategoryList,"Id", "Name"))">
+                </select>
                 <span asp-validation-for="CategoryId" class="text-danger"></span>
             </div>
             <div class="form-group">

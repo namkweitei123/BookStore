@@ -49,6 +49,9 @@ namespace BookStore.Controllers
         // GET: Books/Create
         public IActionResult Create()
         {
+            List <Category> categories = new List<Category>();
+            categories = (from category in _context.Category select category).ToList();
+            ViewBag.CategoryList = categories;
             return View();
         }
 
@@ -59,6 +62,9 @@ namespace BookStore.Controllers
         [ValidateAntiForgeryToken]
         public async Task<IActionResult> Create([Bind("Id,Title,Description,Price,ImageUrl,CategoryId")] Book book)
         {
+            // List <Category> categories = new List<Category>();
+            // categories = (from category in _context.Category select category).ToList();
+            // ViewBag.CategoryList = categories;
             if (ModelState.IsValid)
             {
                 _context.Add(book);
