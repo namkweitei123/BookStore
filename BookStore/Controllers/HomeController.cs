@@ -172,5 +172,22 @@ namespace BookStore.Controllers
 
             return RedirectToAction(nameof(Index));
         }
+        public async Task<IActionResult> Details(int? id)
+        {
+            if (id == null || _context.Book == null)
+            {
+                return NotFound();
+            }
+
+            var book = await _context.Book
+                .FirstOrDefaultAsync(m => m.Id == id);
+            if (book == null)
+            {
+                return NotFound();
+            }
+            List <Category> categories = new List<Category>();
+            var model=_context.Set<Book>().Include(c=>c.Category).FirstOrDefault(m => m.Id == id);
+            return View(model);
+        }
     }
 }
