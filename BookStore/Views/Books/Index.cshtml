@@ -1,10 +1,10 @@
 ﻿@model IEnumerable<BookStore.Models.Book>
 
 @{
-    ViewData["Title"] = "Index";
+    ViewData["Title"] = "All Book";
 }
 
-<h1>Index</h1>
+<h1>All Book</h1>
 
 <p>
     <a asp-action="Create">Create New</a>
@@ -13,21 +13,24 @@
     <thead>
         <tr>
             <th>
-                @Html.DisplayNameFor(model => model.Title)
+                Title
             </th>
             <th>
-                @Html.DisplayNameFor(model => model.Description)
+                Description
             </th>
             <th>
-                @Html.DisplayNameFor(model => model.Price)
+               Price
+            </th>
+            
+            <th>
+               Category
             </th>
             <th>
-                @Html.DisplayNameFor(model => model.ImageUrl)
+              Image
             </th>
             <th>
-                @Html.DisplayNameFor(model => model.CategoryId)
+                Actions
             </th>
-            <th></th>
         </tr>
     </thead>
     <tbody>
@@ -43,15 +46,19 @@
                 @Html.DisplayFor(modelItem => item.Price)
             </td>
             <td>
-                @Html.DisplayFor(modelItem => item.ImageUrl)
-            </td>
-            <td>
                 @Html.DisplayFor(modelItem => item.CategoryId)
             </td>
             <td>
-                <a asp-action="Edit" asp-route-id="@item.Id">Edit</a> |
-                <a asp-action="Details" asp-route-id="@item.Id">Details</a> |
-                <a asp-action="Delete" asp-route-id="@item.Id">Delete</a>
+                 <img id="profilePicture" style="width:150px;height:150px; object-fit:cover" src="data:image/*;base64,@(Convert.ToBase64String(item.ImageUrl))">
+            </td>
+            <td>
+                    <a asp-action="Edit" asp-route-id="@item.Id" class="btn btn-outline-dark w-50">Edit</a>
+                    <br>
+                    <br>
+                    <a asp-action="Details" asp-route-id="@item.Id" class="btn btn-outline-dark w-50">Details</a>
+                    <br>
+                    <br>
+                    <a asp-action="Delete" asp-route-id="@item.Id" class="btn btn-outline-dark w-50">Delete</a>
             </td>
         </tr>
 }

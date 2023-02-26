@@ -8,6 +8,7 @@ using Microsoft.EntityFrameworkCore;
 using BookStore.Data;
 using BookStore.Models;
 using Newtonsoft.Json;
+using Microsoft.AspNetCore.Identity;
 
 namespace BookStore.Controllers
 {
@@ -59,12 +60,27 @@ namespace BookStore.Controllers
         [ValidateAntiForgeryToken]
         public async Task<IActionResult> Create([Bind("Id,Title,Description,Price,ImageUrl,CategoryId")] Book book)
         {
+            if (Request.Form.Files.Count > 0)
+            {
+                IFormFile file = Request.Form.Files.FirstOrDefault();
+                using (var dataStream = new MemoryStream())
+                {
+                    await file.CopyToAsync(dataStream);
+                    book.ImageUrl = dataStream.ToArray();
+                }
+                _context.Add(book);
+                await _context.SaveChangesAsync();
+                return RedirectToAction(nameof(Index));
+
+            }
+            
             if (ModelState.IsValid)
             {
                 _context.Add(book);
                 await _context.SaveChangesAsync();
                 return RedirectToAction(nameof(Index));
             }
+
             return View(book);
         }
 
@@ -95,7 +111,19 @@ namespace BookStore.Controllers
             {
                 return NotFound();
             }
+            if (Request.Form.Files.Count > 0)
+            {
+                IFormFile file = Request.Form.Files.FirstOrDefault();
+                using (var dataStream = new MemoryStream())
+                {
+                    await file.CopyToAsync(dataStream);
+                    book.ImageUrl = dataStream.ToArray();
+                }
+                _context.Update(book);
+                await _context.SaveChangesAsync();
+                return RedirectToAction(nameof(Index));
 
+            }
             if (ModelState.IsValid)
             {
                 try

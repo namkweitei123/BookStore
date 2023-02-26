@@ -1,24 +1,4 @@
-﻿@using Newtonsoft.Json
-@{
-    var data = Context.Session.GetString("cart");
-
-    int coutCart = 0;
-    if (data == null)
-    {
-        coutCart = 0;
-    }
-    else
-    {
-        var data2 = Context.Session.GetString("cart");
-        List<Cart> dataCart = JsonConvert.DeserializeObject<List<Cart>>(data2);
-        foreach (var item in dataCart)
-        {
-            coutCart += item.Quantity;
-        }
-
-    }
-
-}
+﻿
 <!DOCTYPE html>
 <html lang="en">
 <head>
@@ -33,40 +13,32 @@
 
 </head>
 <body id="page-top">
+    @await RenderSectionAsync("TopBar", false)
     <!-- Page Wrapper -->
     <div id="wrapper">
         <!-- Sidebar -->
         @await RenderSectionAsync("SideBar", false)
+        
         <!-- Content Wrapper -->
         <div id="content-wrapper" class="d-flex flex-column">
             <!-- Main Content -->
             <div id="content">
-                @await RenderSectionAsync("TopBar", false)
+                
                 <div class="container-fluid">
-                    <a asp-area=""
-                    asp-controller="Home"
-                       asp-action="ListCart"
-               style="background:red;padding:10px;">
-                Cart
-                <img src="~/images/cart.png" style="width:25px !important;height:25px;display:inline-block;" />
-                        @coutCart
-            </a        >
                     @RenderBody()
                 </div>
             </div>
-
-
-            <footer class="sticky-footer bg-white">
-                <div class="container my-auto">
-                   <a asp-area="" asp-controller="Home" asp-action="Privacy">Privacy</a>
-                </div>
-            </footer>
+           
 
         </div>
 
 
     </div>
-
+    <footer class="border-top footer text-muted">
+        <div class="container">
+            &copy; 2023 - Cuong - Nam - Tuan Anh - <a asp-area="" asp-controller="Home" asp-action="Privacy">Privacy</a>
+        </div>
+    </footer>
 
     <script src="~/lib/jquery/dist/jquery.min.js"></script>
     <script src="~/lib/twitter-bootstrap/js/bootstrap.bundle.min.js"></script>

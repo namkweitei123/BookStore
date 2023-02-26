@@ -46,6 +46,7 @@ namespace BookStore.Data
             });
         }
         public DbSet<Book> Book { get; set; } = default!;
+        public DbSet<BookStore.Models.Category> Category { get; set; } = default!;
       
     }
 }

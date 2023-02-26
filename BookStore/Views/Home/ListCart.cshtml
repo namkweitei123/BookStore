@@ -1,4 +1,6 @@
-﻿
+﻿@using Microsoft.AspNetCore.Razor.Language
+@using Microsoft.CodeAnalysis.Elfie.Model.Map
+@model BookStore.Models.Cart
 @{
     ViewData["Title"] = "ListCart";
     Layout = "~/Views/Shared/_Layout.cshtml";
@@ -8,27 +10,30 @@
         padding: 10px;
     }
 </style>
-<script src="~/js/jquery.min.js"></script>
-<script>
-    $(document).ready(function () {
-        $(".updateCart").click(function (event) {
-            event.preventDefault();
-            var quantity = $(".quantity_" + $(this).attr("data-id")).val();
-            console.log(quantity);
-            $.ajax({
-                type: "POST",
-                url:"@Url.Action("updateCart","Book")",
-                data: {
-                    id: $(this).attr("data-id"),
-                    quantity:quantity
-                },
-                success: function (result) {
-                    window.location.href = '@Url.Action("ListCart","Book")';
-                }
+@section scripts{
+    <script src="/Scripts/jquery-1.4.4.min.js"
+        type="text/javascript"></script>
+    <script type="text/javascript">
+        $(document).ready(function () {
+            $(".updateCart").click(function (event) {
+                event.preventDefault();
+                var quantity = $(".quantity_" + $(this).attr("data-id")).val();
+                console.log(quantity);
+                $.ajax({
+                    type: "POST",
+                    url: "@Url.Action("updateCart", "Home")",
+                    data: {
+                        id: $(this).attr("data-id"),
+                        quantity: quantity
+                    },
+                    success: function (result) {
+                        window.location.href = '@Url.Action("ListCart", "Home")';
+                    }
+                });
             });
         });
-    });
-</script>
+    </script>
+}
 <div class="list-cart">
     <table class="cart" border="1">
         <tr>
@@ -48,7 +53,7 @@
                 string txt_class = "quantity_" + item.Book.Id;
                 STT++;
                 //int total = item.Product.Price * item.Quantity;
-                double total = item.Book.Price * item.Quantity;
+                decimal total = item.Book.Price * item.Quantity;
                 //caloriesBurned = Convert.ToInt32(Decimal.Multiply(maleusage, textBoxInt));
                 <tr>
                     <td>@STT</td>
@@ -57,13 +62,11 @@
                     <td><input type="number" class="@txt_class" value="@item.Quantity" /></td>
                     <td>@item.Book.Price</td>
                     <td>@total</td>
-                    <td><a href="" data-id="@item.Book.Id" class="updateCart">Update</a></td>
-                    <td><a asp-controller="Product" asp-action="deleteCart" asp-route-id="@item.Book.Id">Delete</a></td>
+                    <td><a href="" data-id="@item.Book.Id" class="updateCart" type="submit">Update</a></td>
+                    <td><a asp-controller="Home" asp-action="deleteCart" asp-route-id="@item.Book.Id">Delete</a></td>
                 </tr>
             }
         }
 
     </table>
 </div>
-
-
