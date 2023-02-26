@@ -39,55 +39,13 @@
                         <div class="col-sm-6">
                             <ul class="list-unstyled mb-0">
                                 <li>@Html.DisplayFor(model => model.Price)</li>
-                                <li>@Html.DisplayFor(model => model.CategoryId)</li>
+                                <li>@Html.DisplayFor(model => model.Category.Name)</li>
                             </ul>
                         </div>
+                        <div class="text-center"><a asp-controller="Home" asp-action="addCart" asp-route-id="@Model.Id" class="btn btn-outline-dark mt-auto">Add to cart</a></div>
                     </div>
                 </div>
             </div>
-            
         </div>
     </div>
 </div>
-
-
-@* <div> *@
-@*     <h4>Book</h4> *@
-@*     <hr /> *@
-@*     <dl class="row"> *@
-@*         <dt class = "col-sm-2"> *@
-@*             @Html.DisplayNameFor(model => model.Title) *@
-@*         </dt> *@
-@*         <dd class = "col-sm-10"> *@
-@*             @Html.DisplayFor(model => model.Title) *@
-@*         </dd> *@
-@*         <dt class = "col-sm-2"> *@
-@*             @Html.DisplayNameFor(model => model.Description) *@
-@*         </dt> *@
-@*         <dd class = "col-sm-10"> *@
-@*             @Html.DisplayFor(model => model.Description) *@
-@*         </dd> *@
-@*         <dt class = "col-sm-2"> *@
-@*             @Html.DisplayNameFor(model => model.Price) *@
-@*         </dt> *@
-@*         <dd class = "col-sm-10"> *@
-@*             @Html.DisplayFor(model => model.Price) *@
-@*         </dd> *@
-@*         <dt class = "col-sm-2"> *@
-@*             @Html.DisplayNameFor(model => model.ImageUrl) *@
-@*         </dt> *@
-@*         <dd class = "col-sm-10"> *@
-@*             @Html.DisplayFor(model => model.ImageUrl) *@
-@*         </dd> *@
-@*         <dt class = "col-sm-2"> *@
-@*             @Html.DisplayNameFor(model => model.CategoryId) *@
-@*         </dt> *@
-@*         <dd class = "col-sm-10"> *@
-@*             @Html.DisplayFor(model => model.CategoryId) *@
-@*         </dd> *@
-@*     </dl> *@
-@* </div> *@
-@* <div> *@
-@*     <a asp-action="Edit" asp-route-id="@Model?.Id">Edit</a> | *@
-@*     <a asp-action="Index">Back to List</a> *@
-@* </div> *@

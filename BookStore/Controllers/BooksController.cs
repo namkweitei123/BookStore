@@ -27,25 +27,7 @@ namespace BookStore.Controllers
                           View(await _context.Book.ToListAsync()) :
                           Problem("Entity set 'ApplicationDbContext.Book'  is null.");
         }
-       
-        // GET: Books/Details/5
-        public async Task<IActionResult> Details(int? id)
-        {
-            if (id == null || _context.Book == null)
-            {
-                return NotFound();
-            }
-
-            var book = await _context.Book
-                .FirstOrDefaultAsync(m => m.Id == id);
-            if (book == null)
-            {
-                return NotFound();
-            }
-
-            return View(book);
-        }
-
+        
         // GET: Books/Create
         public IActionResult Create()
         {
