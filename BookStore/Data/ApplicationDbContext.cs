@@ -3,7 +3,6 @@ using Microsoft.AspNetCore.Identity;
 using Microsoft.AspNetCore.Identity.EntityFrameworkCore;
 using Microsoft.EntityFrameworkCore;
 using BookStore.Models;
-using Microsoft.EntityFrameworkCore.Metadata;
 
 namespace BookStore.Data
 {
@@ -49,9 +48,6 @@ namespace BookStore.Data
         public DbSet<Book> Book { get; set; } = default!;
         public DbSet<Category> Category { get; set; } = default!;
         public DbSet<Order> Order { get; set; } = default!;
-<<<<<<< HEAD
 
-=======
->>>>>>> c23ec6aae284e20ca4760e07824403b1203ab1c9
     }
 }

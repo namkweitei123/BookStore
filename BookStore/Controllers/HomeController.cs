@@ -5,9 +5,7 @@ using Newtonsoft.Json;
 using System.Diagnostics;
 using System;
 using System.Collections.Generic;
-using System.Data;
 using System.Linq;
-using System.Net;
 using System.Threading.Tasks;
 using Microsoft.AspNetCore.Mvc;
 using Microsoft.AspNetCore.Mvc.Rendering;
@@ -18,11 +16,7 @@ namespace BookStore.Controllers
     {
         private readonly ILogger<HomeController> _logger;
         private readonly ApplicationDbContext _context;
-<<<<<<< HEAD
      
-=======
-
->>>>>>> c23ec6aae284e20ca4760e07824403b1203ab1c9
         public HomeController(ILogger<HomeController> logger, ApplicationDbContext context)
         {
             _logger = logger;
@@ -48,36 +42,35 @@ namespace BookStore.Controllers
             return View(new ErrorViewModel { RequestId = Activity.Current?.Id ?? HttpContext.TraceIdentifier });
         }
 
-
-
-        //GET ALL PRODUCT
+      
+       
         public List<Book> getAllBook()
         {
             return _context.Book.ToList();
         }
 
-        //GET DETAIL PRODUCT
-        public Book getDetailProduct(int id)
+        //GET DETAIL Book
+        public Book getDetailBook(int id)
         {
-            var book = _context.Book.Find(id);
-            return book;
+            var Book = _context.Book.Find(id);
+            return Book;
         }
 
         //ADD CART
         public IActionResult addCart(int id)
         {
-            var cart = HttpContext.Session.GetString("cart"); //get key cart
+            var cart = HttpContext.Session.GetString("cart");//get key cart
             if (cart == null)
             {
-                var book = getDetailProduct(id);
+                var Book = getDetailBook(id);
                 List<Cart> listCart = new List<Cart>()
-                {
-                    new Cart
-                    {
-                        Book = book,
-                        Quantity = 1
-                    }
-                };
+               {
+                   new Cart
+                   {
+                       Book = Book,
+                       Quantity = 1
+                   }
+               };
                 HttpContext.Session.SetString("cart", JsonConvert.SerializeObject(listCart));
 
             }
@@ -93,16 +86,14 @@ namespace BookStore.Controllers
                         check = false;
                     }
                 }
-
                 if (check)
                 {
                     dataCart.Add(new Cart
                     {
-                        Book = getDetailProduct(id),
+                        Book = getDetailBook(id),
                         Quantity = 1
                     });
                 }
-
                 HttpContext.Session.SetString("cart", JsonConvert.SerializeObject(dataCart));
                 // var cart2 = HttpContext.Session.GetString("cart");//get key cart
                 //  return Json(cart2);
@@ -114,7 +105,7 @@ namespace BookStore.Controllers
 
         public IActionResult ListCart()
         {
-            var cart = HttpContext.Session.GetString("cart"); //get key cart
+            var cart = HttpContext.Session.GetString("cart");//get key cart
             if (cart != null)
             {
                 List<Cart> dataCart = JsonConvert.DeserializeObject<List<Cart>>(cart);
@@ -124,7 +115,6 @@ namespace BookStore.Controllers
                     return View();
                 }
             }
-
             return RedirectToAction(nameof(Index));
         }
 
@@ -145,13 +135,13 @@ namespace BookStore.Controllers
                             dataCart[i].Quantity = quantity;
                         }
                     }
+
+
                     HttpContext.Session.SetString("cart", JsonConvert.SerializeObject(dataCart));
                 }
-
                 var cart2 = HttpContext.Session.GetString("cart");
                 return Ok(quantity);
             }
-
             return BadRequest();
 
         }
@@ -170,74 +160,8 @@ namespace BookStore.Controllers
                         dataCart.RemoveAt(i);
                     }
                 }
-
                 HttpContext.Session.SetString("cart", JsonConvert.SerializeObject(dataCart));
                 return RedirectToAction(nameof(ListCart));
-            }
-
-            return RedirectToAction(nameof(Index));
-        }
-        public async Task<IActionResult> Details(int? id)
-        {
-            if (id == null || _context.Book == null)
-            {
-                return NotFound();
-            }
-
-            var book = await _context.Book
-                .FirstOrDefaultAsync(m => m.Id == id);
-            if (book == null)
-            {
-                return NotFound();
-            }
-            var model=_context.Set<Book>().Include(c=>c.Category).FirstOrDefault(m => m.Id == id);
-            return View(model);
-        }
-        
-        public async Task<IActionResult> OrderDetails(int? id)
-        {
-            if (id == null || _context.Order == null)
-            {
-                return NotFound();
-            }
-            var order = _context.Set<Order>().Include(o=>o.Book).FirstOrDefault(m => m.Id == id);
-
-            if (order == null)
-            {
-                return NotFound();
-            }
-            return View(order);
-        }
-        
-        public ActionResult CheckOut()
-        {
-            if (User.Identity.Name == null)
-            {
-                return RedirectToRoute(new PathString("/Login/"));
-            }
-            if (ModelState.IsValid)
-            {
-                var cart = HttpContext.Session.GetString("cart");
-                if (cart != null)
-                {
-                    List<Cart> dataCart = JsonConvert.DeserializeObject<List<Cart>>(cart);
-                    for (int i = 0; i < dataCart.Count; i++)
-                    {
-                        Order order = new Order(){
-                            CustomerId = 0,
-                            BookId = dataCart[i].Book.Id,
-                            Qty = dataCart[i].Quantity,
-                            Price = dataCart[i].Quantity * dataCart[i].Book.Price,
-                            OrderTime = DateTime.Now
-                        };
-                        _context.Order.Add(order);
-                        _context.SaveChanges();
-                        deleteCart(dataCart[i].Book.Id);
-                    }
-
-                }
-                
-                return RedirectToAction(nameof(Index));
             }
             return RedirectToAction(nameof(Index));
         }
