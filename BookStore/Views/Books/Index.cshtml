@@ -1,3 +1,4 @@
+<<<<<<< HEAD
 ﻿@model IEnumerable<BookStore.Models.Book>
 
 @{
@@ -64,3 +65,71 @@
 }
     </tbody>
 </table>
+=======
+﻿@* @model IEnumerable<BookStore.Models.Book> *@
+@* *@
+@* @{ *@
+@*     ViewData["Title"] = "All Book"; *@
+@* } *@
+@* *@
+@* <h1>All Book</h1> *@
+@* *@
+@* <p> *@
+@*     <a asp-action="Create">Create New</a> *@
+@* </p> *@
+@* <table class="table"> *@
+@*     <thead> *@
+@*         <tr> *@
+@*             <th> *@
+@*                 Title *@
+@*             </th> *@
+@*             <th> *@
+@*                 Description *@
+@*             </th> *@
+@*             <th> *@
+@*                Price *@
+@*             </th> *@
+@*              *@
+@*             <th> *@
+@*                Category *@
+@*             </th> *@
+@*             <th> *@
+@*               Image *@
+@*             </th> *@
+@*             <th> *@
+@*                 Actions *@
+@*             </th> *@
+@*         </tr> *@
+@*     </thead> *@
+@*     <tbody> *@
+@* @foreach (var item in Model) { *@
+@*         <tr> *@
+@*             <td> *@
+@*                 @Html.DisplayFor(modelItem => item.Title) *@
+@*             </td> *@
+@*             <td> *@
+@*                 @Html.DisplayFor(modelItem => item.Description) *@
+@*             </td> *@
+@*             <td> *@
+@*                 @Html.DisplayFor(modelItem => item.Price) *@
+@*             </td> *@
+@*             <td> *@
+@*                 @Html.DisplayFor(modelItem => item.CategoryId) *@
+@*             </td> *@
+@*             <td> *@
+@*                  <img id="profilePicture" style="width:150px;height:150px; object-fit:cover" src="data:image/*;base64,@(Convert.ToBase64String(item.ImageUrl))"> *@
+@*             </td> *@
+@*             <td> *@
+@*                     <a asp-action="Edit" asp-route-id="@item.Id" class="btn btn-outline-dark w-50">Edit</a> *@
+@*                     <br> *@
+@*                     <br> *@
+@*                     <a asp-action="Details" asp-route-id="@item.Id" class="btn btn-outline-dark w-50">Details</a> *@
+@*                     <br> *@
+@*                     <br> *@
+@*                     <a asp-action="Delete" asp-route-id="@item.Id" class="btn btn-outline-dark w-50">Delete</a> *@
+@*             </td> *@
+@*         </tr> *@
+@* } *@
+@*     </tbody> *@
+@* </table> *@
+>>>>>>> c23ec6aae284e20ca4760e07824403b1203ab1c9

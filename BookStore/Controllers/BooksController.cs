@@ -9,8 +9,11 @@ using BookStore.Data;
 using BookStore.Models;
 using Newtonsoft.Json;
 using Microsoft.AspNetCore.Identity;
+<<<<<<< HEAD
 using Microsoft.AspNetCore.Antiforgery;
 using Microsoft.AspNetCore.Authorization;
+=======
+>>>>>>> c23ec6aae284e20ca4760e07824403b1203ab1c9
 
 namespace BookStore.Controllers
 {
@@ -177,10 +180,5 @@ namespace BookStore.Controllers
         {
           return (_context.Book?.Any(e => e.Id == id)).GetValueOrDefault();
         }
-
-
-
-       
-
     }
 }
