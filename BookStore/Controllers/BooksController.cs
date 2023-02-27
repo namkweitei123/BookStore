@@ -25,16 +25,16 @@ namespace BookStore.Controllers
         public async Task<IActionResult> Index()
         {
               return _context.Book != null ? 
-                          View(await _context.Book.ToListAsync()) :
-                          Problem("Entity set 'ApplicationDbContext.Book'  is null.");
+                  View(await _context.Book.ToListAsync()) :
+                  Problem("Entity set 'ApplicationDbContext.Book'  is null.");
         }
-       
-      
-       
-
+        
         // GET: Books/Create
         public IActionResult Create()
         {
+            List <Category> categories = new List<Category>();
+            categories = (from category in _context.Category select category).ToList();
+            ViewBag.CategoryList = categories;
             return View();
         }
 

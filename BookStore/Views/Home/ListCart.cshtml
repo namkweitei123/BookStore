@@ -1,5 +1,8 @@
 ﻿@using Microsoft.AspNetCore.Razor.Language
 @using Microsoft.CodeAnalysis.Elfie.Model.Map
+@using Microsoft.AspNetCore.Identity
+@using Microsoft.AspNetCore.Mvc.TagHelpers
+@inject SignInManager<AppUser> SignInManager
 @model BookStore.Models.Cart
 @{
     ViewData["Title"] = "ListCart";
@@ -94,10 +97,11 @@
                     <h5 class="text-uppercase">Total price</h5>
                     <h5>$ @sum</h5>
                 </div>
-                @using (Html.BeginForm("CheckOut", "Home", FormMethod.Post))
+                
+                @using (Html.BeginForm("CheckOut", "Home", "none", FormMethod.Post))
                 {
                     <div class="col-md-3 col-lg-3 col-xl-2">
-                        <button type="submit" class="btn btn-primary"><h6 class="mb-0">Checkout</h6></button>
+                        <button type="submit"  class="btn btn-primary"><h6 class="mb-0">Checkout</h6></button>
                     </div>
                 }
             </div>

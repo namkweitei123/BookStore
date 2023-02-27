@@ -8,7 +8,9 @@ using System.Collections.Generic;
 using System.Data;
 using System.Linq;
 using System.Net;
+using System.Security.Claims;
 using System.Threading.Tasks;
+using Microsoft.AspNetCore.Identity;
 using Microsoft.AspNetCore.Mvc;
 using Microsoft.AspNetCore.Mvc.Rendering;
 using Microsoft.EntityFrameworkCore;
@@ -18,11 +20,13 @@ namespace BookStore.Controllers
     {
         private readonly ILogger<HomeController> _logger;
         private readonly ApplicationDbContext _context;
+        private readonly UserManager<AppUser> _userManager;
 
-        public HomeController(ILogger<HomeController> logger, ApplicationDbContext context)
+        public HomeController(ILogger<HomeController> logger, ApplicationDbContext context, UserManager<AppUser> userManager)
         {
             _logger = logger;
             _context = context;
+            _userManager = userManager;
         }
 
         public IActionResult Index()
@@ -50,6 +54,11 @@ namespace BookStore.Controllers
         public List<Book> getAllBook()
         {
             return _context.Book.ToList();
+        }
+
+        public List<Order> getOrders()
+        {
+            return _context.Order.ToList();
         }
 
         //GET DETAIL PRODUCT
@@ -117,6 +126,7 @@ namespace BookStore.Controllers
                 if (dataCart.Count > 0)
                 {
                     ViewBag.carts = dataCart;
+                    
                     return View();
                 }
             }
@@ -205,11 +215,12 @@ namespace BookStore.Controllers
             return View(order);
         }
         
-        public ActionResult CheckOut()
+        public async Task<ActionResult> CheckOut()
         {
-            if (User.Identity.Name == null)
+            var user = await _userManager.GetUserAsync(User);
+            if (user == null)
             {
-                return RedirectToRoute(new PathString("/Login/"));
+                return RedirectToPage("./Login");
             }
             if (ModelState.IsValid)
             {
@@ -220,10 +231,10 @@ namespace BookStore.Controllers
                     for (int i = 0; i < dataCart.Count; i++)
                     {
                         Order order = new Order(){
-                            CustomerId = 0,
+                            CustomerId = _userManager.GetUserId(User),
                             BookId = dataCart[i].Book.Id,
                             Qty = dataCart[i].Quantity,
-                            Price = dataCart[i].Quantity * dataCart[i].Book.Price,
+                            Price = Convert.ToDouble(dataCart[i].Quantity * dataCart[i].Book.Price),
                             OrderTime = DateTime.Now
                         };
                         _context.Order.Add(order);
@@ -232,7 +243,6 @@ namespace BookStore.Controllers
                     }
 
                 }
-                
                 return RedirectToAction(nameof(Index));
             }
             return RedirectToAction(nameof(Index));
