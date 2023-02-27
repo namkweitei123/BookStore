@@ -18,11 +18,10 @@ namespace BookStore.Data
             //Seed Default User
             var defaultUser = new AppUser
             {
-                UserName = "superadmin",
+                UserName = "admin",
                 Email = "admin@gmail.com",
                 FirstName = "Nam",
                 LastName = "Nguyen",
-                Address = "hanoi",
                 EmailConfirmed = true,
                 PhoneNumberConfirmed = true
             };
@@ -35,6 +34,7 @@ namespace BookStore.Data
                     await userManager.AddToRoleAsync(defaultUser, Enums.Roles.Basic.ToString());
                     await userManager.AddToRoleAsync(defaultUser, Enums.Roles.Admin.ToString());
                 }
+
             }
         }
     }

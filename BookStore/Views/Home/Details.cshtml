@@ -3,7 +3,12 @@
 @{
     ViewData["Title"] = "Details";
 }
-
+@{
+    Layout = "/Views/Shared/Admin/_Layout.cshtml";
+}
+@section TopBar {
+    @await Html.PartialAsync("/Views/Shared/Admin/_TopBar.cshtml")
+}
 <!-- Page content-->
 <div class="container mt-5">
     <div class="row">
@@ -20,11 +25,11 @@
                 <!-- Post content-->
                 <section class="mb-5">
                     <p class="fs-5 mb-4">@Html.DisplayFor(model => model.Description)</p>
-                 </section>
+                </section>
             </article>
         </div>
         <!-- Side widgets-->
-        <div class="col-lg-4"  style="padding-top: 100px">
+        <div class="col-lg-4" style="padding-top: 100px">
             <!-- Categories widget-->
             <div class="card mb-4">
                 <div class="card-header">Information</div>

@@ -12,17 +12,7 @@
         return (activePage == page) ? "active" : "";
     };
 }
-<ul class="navbar-nav bg-gradient-primary sidebar sidebar-dark accordion" id="accordionSidebar">
-
-
-    <a class="sidebar-brand d-flex align-items-center justify-content-center"
-       asp-action="Index" asp-controller="Home" asp-area="">
-        <div class="sidebar-brand-icon rotate-n-15">
-            <i class="fas fa-laugh-wink"></i>
-        </div>
-        <div class="sidebar-brand-text mx-3">Book Store</div>
-    </a>
-
+<ul class="navbar-nav sidebar sidebar-light accordion" id="accordionSidebar" style="background-color: #f8f9fc">
 
     <hr class="sidebar-divider my-0">
 
@@ -83,9 +73,9 @@
         </a>
         <div id="collapsePosts" class="collapse" aria-labelledby="headingTwo" data-parent="#accordionSidebar">
             <div class="bg-white py-2 collapse-inner rounded">
-                <a class="collapse-item" asp-controller="Category" asp-area="Admin"><i class="fas fa-list"></i> Category</a>
-                <a class="collapse-item" asp-controller="Post" asp-area="Admin" asp-action="Index"><i class="fas fa-list"></i> Product</a>
-                <a class="collapse-item" asp-controller="Post" asp-area="Admin" asp-action="Create"><i class="fas fa-plus-circle"></i> Author</a>
+                    <a class="collapse-item" asp-controller="Categories" asp-area=""asp-action="Index"><i class="fas fa-list"></i> Category</a>
+                <a class="collapse-item" asp-controller="Books" asp-area="" asp-action="Index"><i class="fas fa-list"></i> Product</a>
+                
 
             </div>
         </div>
