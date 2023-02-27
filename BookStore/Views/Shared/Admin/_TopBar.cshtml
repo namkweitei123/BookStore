@@ -1,74 +1,56 @@
 ﻿@using Microsoft.AspNetCore.Identity
 @using Microsoft.AspNetCore.Mvc.ViewEngines
+@using Newtonsoft.Json;
 @inject SignInManager<AppUser> SignInManager
 @inject UserManager<AppUser> UserManager
 <!-- Topbar -->
-<nav class="navbar navbar-expand navbar-light bg-white topbar mb-4 static-top shadow">
-    <!-- Sidebar Toggle (Topbar) -->
-    <button id="sidebarToggleTop" class="btn btn-link d-md-none rounded-circle mr-3">
-        <i class="fa fa-bars"></i>
-    </button>
-    @if (User.Identity.IsAuthenticated)
+@{
+    var data = Context.Session.GetString("cart");
+
+    int coutCart = 0;
+    if (data == null)
     {
-        <!-- Topbar Navbar -->
-        <ul class="navbar-nav ml-auto">
-            <!-- Nav Item - Messages -->
-            @*<li class="nav-item dropdown no-arrow mx-1">
-                <a class="nav-link dropdown-toggle" href="#" id="messagesDropdown" role="button" data-bs-toggle="dropdown" aria-haspopup="true" aria-expanded="false">
-                    <i class="fas fa-envelope fa-fw"></i>
-                    <!-- Counter - Messages -->
-                    <span class="badge badge-danger badge-counter">1</span>
-                </a>
-                <!-- Dropdown - Messages -->
-                <div class="dropdown-list dropdown-menu dropdown-menu-right shadow animated--grow-in" aria-labelledby="messagesDropdown">
-                    <h6 class="dropdown-header">
-                        Notices
-                    </h6>
-                    <a class="dropdown-item d-flex align-items-center" href="#">
-                        <div class="dropdown-list-image mr-3">
-                            <img class="rounded-circle" src="https://source.unsplash.com/fn_BT9fwg_E/60x60" alt="">
-                            <div class="status-indicator bg-success"></div>
-                        </div>
-                        <div class="font-weight-bold">
-                            <div class="text-truncate">Notice 1...</div>
-                            <div class="small text-gray-500">Function not built yet</div>
-                        </div>
-                    </a>
-                </div>
-            </li>*@
-
-            <div class="topbar-divider d-none d-sm-block"></div>
-
-            <!-- Nav Item - User Information -->
-            <li class="nav-item dropdown no-arrow">
-                <a class="nav-link dropdown-toggle" href="#" id="userDropdown" role="button" data-bs-toggle="dropdown" aria-haspopup="true" aria-expanded="false">
-                    <span class="mr-2 d-none d-lg-inline text-gray-600 small">@UserManager.GetUserName(User)</span>
-                    <img class="img-profile rounded-circle bg-dark" src="https://scontent.fhan17-1.fna.fbcdn.net/v/t39.30808-6/328713170_3307225816161097_5910434738742018032_n.jpg?_nc_cat=107&ccb=1-7&_nc_sid=09cbfe&_nc_ohc=QRMsWzaUGWIAX9fq6Bj&_nc_ht=scontent.fhan17-1.fna&oh=00_AfBhoMOi0zIfmZT1XG11AAJEDA7nkVOPCQlRqculD7n5BA&oe=63F723C9">
-                </a>
-
-                <div class="dropdown-menu dropdown-menu-right shadow animated--grow-in" aria-labelledby="userDropdown">
-                    <a class="dropdown-item" asp-area="Identity" asp-page="/Account/Manage/Index">
-                        <i class="fas fa-user fa-sm fa-fw mr-2 text-gray-400"></i>
-                        Profile
-                    </a>
-                    <div class="dropdown-divider"></div>
-
-                    <a class="dropdown-item"
-                   asp-area="Identity" asp-page="/Account/Logout"
-                   asp-route-returnUrl="@Url.Page("/Index", new { area = "" })">
-                        <i class="fas fa-sign-out-alt fa-sm fa-fw mr-2 text-gray-400"></i>
-                        Log out
-                    </a>
-
-                </div>
-            </li>
-
-        </ul>
+        coutCart = 0;
     }
     else
     {
-         <partial name="_LoginPartial" />
+        var data2 = Context.Session.GetString("cart");
+        List<Cart> dataCart = JsonConvert.DeserializeObject<List<Cart>>(data2);
+        foreach (var item in dataCart)
+        {
+            coutCart += item.Quantity;
+        }
     }
-
+}
+<header>
+<nav class="navbar navbar-expand-lg navbar-light bg-light">
+    <div class="container-xxl px-4 px-lg-5">
+        <a class="navbar-brand" asp-controller="Home" asp-action="Index">CAN's Book store</a>
+        <button class="navbar-toggler" type="button" data-bs-toggle="collapse" data-bs-target="#navbarSupportedContent" aria-controls="navbarSupportedContent" aria-expanded="false" aria-label="Toggle navigation"><span class="navbar-toggler-icon"></span></button>
+        <div class="collapse navbar-collapse" id="navbarSupportedContent">
+            <ul class="navbar-nav me-auto mb-2 mb-lg-0 ms-lg-4">
+                <li class="nav-item"><a class="nav-link text-dark" asp-area="" asp-controller="Home" asp-action="Index">Home</a></li>
+                <li class="nav-item"><a class="nav-link" href="#!">About</a></li>
+                <li class="nav-item dropdown">
+                    <a class="nav-link dropdown-toggle" id="navbarDropdown" href="#" role="button" data-bs-toggle="dropdown" aria-expanded="false">Shop</a>
+                    <ul class="dropdown-menu" aria-labelledby="navbarDropdown">
+                        <li><a class="dropdown-item" href="#!">All Products</a></li>
+                        <li><hr class="dropdown-divider" /></li>
+                        <li><a class="dropdown-item" href="#!">Popular Items</a></li>
+                        <li><a class="dropdown-item" href="#!">New Arrivals</a></li>
+                    </ul>
+                </li>
+            </ul>
+            <partial name="_LoginPartial" />
+            <form class="d-flex">
+                <button class="btn btn-outline-dark" type="submit" a asp-area="" asp-controller="Home" asp-action="ListCart">
+                    <i class="bi-cart-fill me-1"></i>
+                    Cart
+                    <span class="badge bg-dark text-white ms-1 rounded-pill">@coutCart</span>
+                </button>
+            </form>
+        </div>
+    </div>
 </nav>
+</header>
 <!-- End of Topbar -->

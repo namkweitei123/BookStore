@@ -12,7 +12,8 @@
             asp-page-handler="StartNewRole">Add new Role</button>
 </form>
 <a class="btn btn-secondary" asp-page="./User">Assign roles to users</a>
-
+<br>
+<br>
 
 <table class="table">
   <tr>
@@ -27,19 +28,12 @@
         <td>@role.Name</td>
         <td>
             <form method="POST" class="d-inline">
-              <button name="Input.ID" value="@role.Id" class="btn btn-success btn-sm" 
-                      asp-page="./Add" asp-page-handler="StartUpdate">Updae Role</button>
+                    <button name="Input.ID" value="@role.Id" class="btn btn-outline-dark "
+                        asp-page="./Add" asp-page-handler="StartUpdate">Updae Role</button>
             </form>
 
-            
-
-            <a name="rolename"  class="btn btn-success btn-sm" 
-                      asp-route-roleid ="@role.Id"
-                      asp-area="Admin"
-                      asp-page="/RoleClaims/Index">Claims</a>
-
             <form method="POST" class="d-inline">
-              <button name="Input.ID" value="@role.Id" class="btn btn-success btn-sm" 
+              <button name="Input.ID" value="@role.Id" class="btn btn-outline-dark" 
                       asp-page="./Delete">Delete Role</button>
             </form>
 
