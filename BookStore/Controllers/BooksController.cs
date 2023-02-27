@@ -8,9 +8,13 @@ using Microsoft.EntityFrameworkCore;
 using BookStore.Data;
 using BookStore.Models;
 using Newtonsoft.Json;
+using Microsoft.AspNetCore.Identity;
+using Microsoft.AspNetCore.Antiforgery;
+using Microsoft.AspNetCore.Authorization;
 
 namespace BookStore.Controllers
 {
+    [Authorize(Roles ="Admin")]
     public class BooksController : Controller
     {
         private readonly ApplicationDbContext _context;
@@ -24,47 +28,48 @@ namespace BookStore.Controllers
         public async Task<IActionResult> Index()
         {
               return _context.Book != null ? 
-                          View(await _context.Book.ToListAsync()) :
-                          Problem("Entity set 'ApplicationDbContext.Book'  is null.");
+              View(await _context.Book.ToListAsync()) :
+              Problem("Entity set 'ApplicationDbContext.Book'  is null.");
         }
        
-        // GET: Books/Details/5
-        public async Task<IActionResult> Details(int? id)
-        {
-            if (id == null || _context.Book == null)
-            {
-                return NotFound();
-            }
-
-            var book = await _context.Book
-                .FirstOrDefaultAsync(m => m.Id == id);
-            if (book == null)
-            {
-                return NotFound();
-            }
-
-            return View(book);
-        }
+      
+       
 
         // GET: Books/Create
         public IActionResult Create()
         {
+            List<Category> categories = new List<Category>();
+            categories = (from category in _context.Category select category).ToList();
+            ViewBag.CategoryList = categories;
             return View();
         }
 
-        // POST: Books/Create
-        // To protect from overposting attacks, enable the specific properties you want to bind to.
-        // For more details, see http://go.microsoft.com/fwlink/?LinkId=317598.
+       
         [HttpPost]
         [ValidateAntiForgeryToken]
         public async Task<IActionResult> Create([Bind("Id,Title,Description,Price,ImageUrl,CategoryId")] Book book)
         {
+            if (Request.Form.Files.Count > 0)
+            {
+                IFormFile file = Request.Form.Files.FirstOrDefault();
+                using (var dataStream = new MemoryStream())
+                {
+                    await file.CopyToAsync(dataStream);
+                    book.ImageUrl = dataStream.ToArray();
+                }
+                _context.Add(book);
+                await _context.SaveChangesAsync();
+                return RedirectToAction(nameof(Index));
+
+            }
+            
             if (ModelState.IsValid)
             {
                 _context.Add(book);
                 await _context.SaveChangesAsync();
                 return RedirectToAction(nameof(Index));
             }
+
             return View(book);
         }
 
@@ -95,7 +100,19 @@ namespace BookStore.Controllers
             {
                 return NotFound();
             }
+            if (Request.Form.Files.Count > 0)
+            {
+                IFormFile file = Request.Form.Files.FirstOrDefault();
+                using (var dataStream = new MemoryStream())
+                {
+                    await file.CopyToAsync(dataStream);
+                    book.ImageUrl = dataStream.ToArray();
+                }
+                _context.Update(book);
+                await _context.SaveChangesAsync();
+                return RedirectToAction(nameof(Index));
 
+            }
             if (ModelState.IsValid)
             {
                 try

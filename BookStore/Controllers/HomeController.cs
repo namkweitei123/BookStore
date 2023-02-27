@@ -16,6 +16,7 @@ namespace BookStore.Controllers
     {
         private readonly ILogger<HomeController> _logger;
         private readonly ApplicationDbContext _context;
+     
         public HomeController(ILogger<HomeController> logger, ApplicationDbContext context)
         {
             _logger = logger;
@@ -161,6 +162,71 @@ namespace BookStore.Controllers
                 }
                 HttpContext.Session.SetString("cart", JsonConvert.SerializeObject(dataCart));
                 return RedirectToAction(nameof(ListCart));
+            }
+            return RedirectToAction(nameof(Index));
+        }
+        public async Task<IActionResult> Details(int? id)
+        {
+            if (id == null || _context.Book == null)
+            {
+                return NotFound();
+            }
+
+            var book = await _context.Book
+                .FirstOrDefaultAsync(m => m.Id == id);
+            if (book == null)
+            {
+                return NotFound();
+            }
+            List<Category> categories = new List<Category>();
+            var model = _context.Set<Book>().Include(c => c.Category).FirstOrDefault(m => m.Id == id);
+            return View(model);
+        }
+        public async Task<IActionResult> OrderDetails(int? id)
+        {
+            if (id == null || _context.Order == null)
+            {
+                return NotFound();
+            }
+            var order = _context.Set<Order>().Include(o => o.Book).FirstOrDefault(m => m.Id == id);
+
+            if (order == null)
+            {
+                return NotFound();
+            }
+            return View(order);
+        }
+
+        public ActionResult CheckOut()
+        {
+            if (User.Identity.Name == null)
+            {
+                return RedirectToRoute(new PathString("/Login/"));
+            }
+            if (ModelState.IsValid)
+            {
+                var cart = HttpContext.Session.GetString("cart");
+                if (cart != null)
+                {
+                    List<Cart> dataCart = JsonConvert.DeserializeObject<List<Cart>>(cart);
+                    for (int i = 0; i < dataCart.Count; i++)
+                    {
+                        Order order = new Order()
+                        {
+                            CustomerId = 0,
+                            BookId = dataCart[i].Book.Id,
+                            Qty = dataCart[i].Quantity,
+                            Price = Convert.ToDouble(dataCart[i].Quantity * dataCart[i].Book.Price),
+                            OrderTime = DateTime.Now
+                        };
+                        _context.Order.Add(order);
+                        _context.SaveChanges();
+                        deleteCart(dataCart[i].Book.Id);
+                    }
+
+                }
+
+                return RedirectToAction(nameof(Index));
             }
             return RedirectToAction(nameof(Index));
         }

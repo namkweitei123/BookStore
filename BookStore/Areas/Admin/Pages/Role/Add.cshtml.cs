@@ -20,7 +20,7 @@ namespace Album.Areas.Admin.Pages.Role {
             _roleManager = roleManager;
         }
 
-        [TempData] // Sử dụng Session
+        [TempData] 
         public string StatusMessage { get; set; }
 
         public class InputModel {
@@ -73,7 +73,7 @@ namespace Album.Areas.Admin.Pages.Role {
             }
 
             if (IsUpdate) {
-                // CẬP NHẬT
+                
                 if (Input.ID == null) {
                     ModelState.Clear ();
                     StatusMessage = "Error: No information about role";
@@ -96,7 +96,7 @@ namespace Album.Areas.Admin.Pages.Role {
                 }
 
             } else {
-                // TẠO MỚI
+              
                 var newRole = new IdentityRole (Input.Name);
                 var rsNewRole = await _roleManager.CreateAsync (newRole);
                 if (rsNewRole.Succeeded) {

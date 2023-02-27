@@ -18,7 +18,7 @@ namespace BookStore.Data
             //Seed Default User
             var defaultUser = new AppUser
             {
-                UserName = "superadmin",
+                UserName = "admin",
                 Email = "admin@gmail.com",
                 FirstName = "Nam",
                 LastName = "Nguyen",

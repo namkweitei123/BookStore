@@ -1,0 +1,32 @@
+﻿@model BookStore.Models.Order
+
+@{
+    ViewData["Title"] = "OrderDetails";
+}
+@{
+    Layout = "~/Views/Shared/Admin/_Layout.cshtml";
+}
+
+<!DOCTYPE html>
+
+<html>
+<head>
+    <title>OrderDetail</title>
+</head>
+<body>
+<div class="col-sm-6">
+    <ul class="list-unstyled mb-0">
+        <li>@Html.DisplayNameFor(model => model.Price)</li>
+        <li>@Html.DisplayNameFor(model => model.Book)</li>
+    </ul>
+</div>
+
+<div class="col-sm-6">
+    <ul class="list-unstyled mb-0">
+        <li>@Html.DisplayFor(model => model.Price)</li>
+        <li>@Html.DisplayFor(model => model.Book.Title)</li>
+    </ul>
+</div>
+
+</body>
+</html>
