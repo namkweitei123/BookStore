@@ -7,6 +7,7 @@ using System;
 using System.Collections.Generic;
 using System.Data;
 using System.Linq;
+using System.Net;
 using System.Threading.Tasks;
 using Microsoft.AspNetCore.Mvc;
 using Microsoft.AspNetCore.Mvc.Rendering;
@@ -185,9 +186,56 @@ namespace BookStore.Controllers
             {
                 return NotFound();
             }
-            List <Category> categories = new List<Category>();
             var model=_context.Set<Book>().Include(c=>c.Category).FirstOrDefault(m => m.Id == id);
             return View(model);
+        }
+        
+        public async Task<IActionResult> OrderDetails(int? id)
+        {
+            if (id == null || _context.Order == null)
+            {
+                return NotFound();
+            }
+            var order = _context.Set<Order>().Include(o=>o.Book).FirstOrDefault(m => m.Id == id);
+
+            if (order == null)
+            {
+                return NotFound();
+            }
+            return View(order);
+        }
+        
+        public ActionResult CheckOut()
+        {
+            if (User.Identity.Name == null)
+            {
+                return RedirectToRoute(new PathString("/Login/"));
+            }
+            if (ModelState.IsValid)
+            {
+                var cart = HttpContext.Session.GetString("cart");
+                if (cart != null)
+                {
+                    List<Cart> dataCart = JsonConvert.DeserializeObject<List<Cart>>(cart);
+                    for (int i = 0; i < dataCart.Count; i++)
+                    {
+                        Order order = new Order(){
+                            CustomerId = 0,
+                            BookId = dataCart[i].Book.Id,
+                            Qty = dataCart[i].Quantity,
+                            Price = dataCart[i].Quantity * dataCart[i].Book.Price,
+                            OrderTime = DateTime.Now
+                        };
+                        _context.Order.Add(order);
+                        _context.SaveChanges();
+                        deleteCart(dataCart[i].Book.Id);
+                    }
+
+                }
+                
+                return RedirectToAction(nameof(Index));
+            }
+            return RedirectToAction(nameof(Index));
         }
     }
 }
