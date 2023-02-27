@@ -173,10 +173,5 @@ namespace BookStore.Controllers
         {
           return (_context.Book?.Any(e => e.Id == id)).GetValueOrDefault();
         }
-
-
-
-       
-
     }
 }
