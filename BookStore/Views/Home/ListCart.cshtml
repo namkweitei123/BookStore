@@ -1,6 +1,8 @@
 ﻿@using Microsoft.AspNetCore.Razor.Language
 @using Microsoft.CodeAnalysis.Elfie.Model.Map
-@model BookStore.Models.Cart
+@using Microsoft.AspNetCore.Identity
+@inject SignInManager<AppUser> SignInManager
+@inject UserManager<AppUser> UserManager
 @{
     ViewData["Title"] = "ListCart";
     Layout = "~/Views/Shared/Admin/_Layout.cshtml";
@@ -37,7 +39,27 @@
         });
     </script>
 }
-<div class="list-cart">
+<div class="row">
+    <div class="col-lg-9 card o-hidden border-0 shadow-lg my-4 text-bg-dark">
+        <div class ="row mt-3 mb-3 d-flex justify-content-between align-items-center">
+    @*    <div class="col-2">
+            
+        </div>*@
+            <div class="col-4">
+                <h4 class="m-0">Title</h4>
+            </div>
+            <div class="col-2">
+                <h4 class="m-0">Quantity</h4>
+        </div>
+            <div class="col-2">
+                <h4 class="m-0">Total</h4>
+        </div>
+            <div class="col-2">
+                <h4 class="m-0">Action</h4>
+        </div>
+        </div>
+    </div>
+    <div class="col-lg-9  card o-hidden border-0 shadow-lg my-4 text-bg-dark">
     @{
         int STT = 0;
         decimal sum = 0;
@@ -51,56 +73,110 @@
             sum += total;
             count += 1;
             //caloriesBurned = Convert.ToInt32(Decimal.Multiply(maleusage, textBoxInt));
-            <div class="row mb-4 d-flex justify-content-between align-items-center">
-                <div class="col-md-3 col-lg-3 col-xl-2">
+               
+            <div class="row mb-4 mt-4 d-flex justify-content-between align-items-center ">
+                <div class="col-2 ">
                     <img style="width:150px;height:150px; object-fit:cover" src="data:image/*;base64,@(Convert.ToBase64String(item.Book.ImageUrl))">
                 </div>
-                <div class="col-md-3 col-lg-3 col-xl-2">
+                <div class="col-2 ">
                     <h6 class="text-black mb-0">@item.Book.Title</h6>
                 </div>
-                <div class="col-md-3 col-lg-3 col-xl-2 d-flex">
-                    <input type="number" class="@txt_class" value="@item.Quantity" />
+                <div class="col-2 d-flex ">
+                        <input style="width:40px;" type="number" class="@txt_class" value="@item.Quantity" />
                 </div>
-                <div class="col-md-3 col-lg-3 col-xl-2">
+                <div class="col-2 ">
                     <h6 class="mb-0">$ @total</h6>
                 </div>
 
-                @* <td>@item.Book.Title</td> *@
-                @* <td><img src="@item.Book.ImageUrl" width="100" height="100"/></td> *@
-                @* <td><input type="number" class="@txt_class" value="@item.Quantity"/></td> *@
-                @* <td>@item.Book.Price</td> *@
-                @* <td>@total</td> *@
-                <div class="col-md-3 col-lg-3 col-xl-2">
+                @*<td>@item.Book.Title</td> 
+                <td><img src="@item.Book.ImageUrl" width="100" height="100"/></td> 
+                 <td><input type="number" class="@txt_class" value="@item.Quantity"/></td> 
+                 <td>@item.Book.Price</td> 
+                <td>@total</td> ?*@
+                <div class="col-1 ">
                     <button href="" data-id="@item.Book.Id" class="btn btn-primary updateCart" type="submit"><h6 class="mb-0">Update</h6></button>
                 </div>
-                <div class="col-md-3 col-lg-3 col-xl-2">
-                    <button asp-controller="Home" asp-action="deleteCart" asp-route-id="@item.Book.Id" class="btn btn-danger"><h6 class="mb-0">Delete</h6></button>
+                <div class="col-1 ">
+                        <a asp-controller="Home" asp-action="deleteCart" asp-route-id="@item.Book.Id" class="btn btn-danger"><h6 class="mb-0">Delete</h6></a>
                 </div>
 
-                @* <td><a href="" data-id="@item.Book.Id" class="updateCart" type="submit">Update</a></td> *@
-                @* <td><a asp-controller="Home" asp-action="deleteCart" asp-route-id="@item.Book.Id">Delete</a></td> *@
+                 @*<td><a href="" data-id="@item.Book.Id" class="updateCart" type="submit">Update</a></td> 
+                <td><a asp-controller="Home" asp-action="deleteCart" asp-route-id="@item.Book.Id">Delete</a></td> *@
             </div>
-            <hr class="my-4">
+            
         }
-        <div class="col-lg-4 bg-grey">
-            <div class="p-5">
-                <h3 class="fw-bold mb-5 mt-2 pt-1">Summary</h3>
-                <hr class="my-4">
-                <div class="d-flex justify-content-between mb-4">
-                    <h5 class="text-uppercase">items</h5>
-                    <h5>@count</h5>
-                </div>
-                <div class="d-flex justify-content-between mb-5">
-                    <h5 class="text-uppercase">Total price</h5>
-                    <h5>$ @sum</h5>
-                </div>
-                 @using (Html.BeginForm("CheckOut", "Home", FormMethod.Post))
+        
+        
+    }
+</div>
+@*    <div class="col-lg-9">
+        @{
+            int STT = 0;
+            decimal sum = 0;
+            int count = 0;
+        <table class="table">
+            <thead>
+                <th>
+                    Book
+                </th>
+                <th>
+                    Quantity
+                </th>
+                <th>
+                    Total
+                </th>
+                <th>
+                    Actions
+                </th>
+            </thead>
+            <tbody>
+                   foreach (var item in ViewBag.carts)
+{
+                    string txt_class = "quantity_" + item.Book.Id;
+                    STT++;
+                    //int total = item.Product.Price * item.Quantity;
+                    decimal total = item.Book.Price * item.Quantity;
+                    sum += total;
+                    count += 1;
+                <tr>
+                    <td>
+                        <img style="width:150px;height:150px; object-fit:cover" src="data:image/*;base64,@(Convert.ToBase64String(item.Book.ImageUrl))">
+                    </td>
+                        <td>@item.Book.Title</td>
+                </tr>
+        }
+            </tbody>
+        </table>
+        }
+</div>*@
+<div class="col-lg-3 bg-grey">
+    <div class="p-5">
+        <h3 class="fw-bold mb-5 mt-2 pt-1">Summary</h3>
+        <hr class="my-4">
+        <div class="d-flex justify-content-between mb-4">
+            <h5 class="text-uppercase">items</h5>
+            <h5>@count</h5>
+        </div>
+        <div class="d-flex justify-content-between mb-5">
+            <h5 class="text-uppercase">Total price</h5>
+            <h5>$ @sum</h5>
+        </div>
+
+            @if (SignInManager.IsSignedIn(User))
+            {
+                using (Html.BeginForm("CheckOut", "Home", "none", FormMethod.Post))
                 {
                     <div class="col-md-3 col-lg-3 col-xl-2">
                         <button type="submit" class="btn btn-primary"><h6 class="mb-0">Checkout</h6></button>
                     </div>
                 }
-            </div>
-        </div>
-    }
+            }
+            else
+            {
+                <div class="col-md-3 col-lg-3 col-xl-2">
+                    <a asp-area="Identity" asp-page="/Account/Login"><button type="submit" class="btn btn-primary"><h6 class="mb-0">Checkout</h6></button></a>
+                </div>
+            }
+    </div>
+</div>
 </div>

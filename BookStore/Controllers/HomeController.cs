@@ -7,27 +7,34 @@ using System;
 using System.Collections.Generic;
 using System.Linq;
 using System.Threading.Tasks;
-using Microsoft.AspNetCore.Mvc;
 using Microsoft.AspNetCore.Mvc.Rendering;
 using Microsoft.EntityFrameworkCore;
+using Microsoft.AspNetCore.Identity;
+
 namespace BookStore.Controllers
 {
     public class HomeController : Controller
     {
         private readonly ILogger<HomeController> _logger;
         private readonly ApplicationDbContext _context;
-     
-        public HomeController(ILogger<HomeController> logger, ApplicationDbContext context)
+        private readonly UserManager<AppUser> _userManager;
+        public HomeController(ILogger<HomeController> logger, ApplicationDbContext context, UserManager<AppUser> userManager)
         {
             _logger = logger;
             _context = context;
+            _userManager = userManager;
         }
 
-        public IActionResult Index()
+        public async Task<IActionResult> Index(string search)
         {
-            var _book = getAllBook();
-            ViewBag.book = _book;
-            return View();
+            var books = from m in _context.Book select m;
+            if (!string.IsNullOrEmpty(search))
+            {
+                books = books.Where(s => s.Title.Contains(search));
+            }
+            /*var _book = getAllBook();
+            ViewBag.book = _book;*/
+            return View(await books.ToListAsync());
         }
 
         public IActionResult Privacy()
@@ -197,27 +204,36 @@ namespace BookStore.Controllers
             return View(order);
         }
 
-        public ActionResult CheckOut()
+        public async Task<ActionResult> CheckOut()
         {
-            if (User.Identity.Name == null)
+            var user = await _userManager.GetUserAsync(User);
+            if (user == null)
+            {
+                return RedirectToPage("~/Login");
+            }
+            /*if (User.Identity.Name == null)
             {
                 return RedirectToRoute(new PathString("/Login/"));
-            }
+            }*/
             if (ModelState.IsValid)
             {
                 var cart = HttpContext.Session.GetString("cart");
+                int count = _context.Order.Max(m => m.Count);
                 if (cart != null)
                 {
                     List<Cart> dataCart = JsonConvert.DeserializeObject<List<Cart>>(cart);
                     for (int i = 0; i < dataCart.Count; i++)
                     {
+
                         Order order = new Order()
                         {
-                            CustomerId = 0,
+
+                            AppUserId = user.Id,
                             BookId = dataCart[i].Book.Id,
                             Qty = dataCart[i].Quantity,
                             Price = Convert.ToDouble(dataCart[i].Quantity * dataCart[i].Book.Price),
-                            OrderTime = DateTime.Now
+                            OrderTime = DateTime.Now,
+                            Count = count + 1
                         };
                         _context.Order.Add(order);
                         _context.SaveChanges();

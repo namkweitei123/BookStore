@@ -1,14 +1,23 @@
-﻿using Microsoft.AspNetCore.Identity;
+﻿using BookStore.Data;
+using BookStore.Enums;
+using BookStore.Models;
+using Microsoft.AspNetCore.Authorization;
+using Microsoft.AspNetCore.Identity;
 using Microsoft.AspNetCore.Mvc;
 using Microsoft.EntityFrameworkCore;
+using System.Data;
 
 namespace BookStore.Controllers
 {
+    [Authorize(Roles = "Admin")]
     public class RoleManagerController : Controller
     {
         private readonly RoleManager<IdentityRole> _roleManager;
-        public RoleManagerController(RoleManager<IdentityRole> roleManager)
+        private readonly ApplicationDbContext _context;
+        public bool isConfirmed { set; get; }
+        public RoleManagerController(RoleManager<IdentityRole> roleManager, ApplicationDbContext context)
         {
+            _context= context;
             _roleManager = roleManager;
         }
         public async Task<IActionResult> Index()

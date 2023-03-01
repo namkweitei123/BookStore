@@ -1,4 +1,5 @@
 ﻿@page
+@using Microsoft.AspNetCore.Identity
 @using BookStore.Models;
 @model IndexModel
 @inject UserManager<AppUser> UserManager
@@ -43,7 +44,7 @@
         <div class="col-md-6">
         <div asp-validation-summary="ModelOnly" class="text-danger"></div>
         <div class="form-floating mb-3">
-            <label asp-for="Input.ProfilePicture" style="width: 100%;">Avatar</label>
+            
                 @if (UserManager.GetUserAsync(User).Result.ProfilePicture != null)
             {
                     <img id="profilePicture" style="width:350px;height:350px; object-fit:cover" src="data:image/*;base64,@(Convert.ToBase64String(UserManager.GetUserAsync(User).Result.ProfilePicture))">

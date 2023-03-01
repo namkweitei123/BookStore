@@ -25,11 +25,12 @@ namespace BookStore.Controllers
         }
 
         // GET: Books
-        public async Task<IActionResult> Index()
+        public async Task<IActionResult> Index(int? id)
         {
-              return _context.Book != null ? 
-              View(await _context.Book.ToListAsync()) :
-              Problem("Entity set 'ApplicationDbContext.Book'  is null.");
+          
+            var books = _context.Book.Include(b => b.Category).ToList();
+          
+            return View(books);
         }
        
       
@@ -86,6 +87,9 @@ namespace BookStore.Controllers
             {
                 return NotFound();
             }
+            List<Category> categories = new List<Category>();
+            categories = (from category in _context.Category select category).ToList();
+            ViewBag.CategoryList = categories;
             return View(book);
         }
 
@@ -151,7 +155,9 @@ namespace BookStore.Controllers
                 return NotFound();
             }
 
-            return View(book);
+            List<Category> categories = new List<Category>();
+            var model = _context.Set<Book>().Include(c => c.Category).FirstOrDefault(m => m.Id == id);
+            return View(model);
         }
 
         // POST: Books/Delete/5

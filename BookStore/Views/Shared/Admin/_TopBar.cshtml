@@ -38,7 +38,24 @@
                         <li><hr class="dropdown-divider" /></li>
                         <li><a class="dropdown-item" href="#!">Popular Items</a></li>
                         <li><a class="dropdown-item" href="#!">New Arrivals</a></li>
+                            
                     </ul>
+                </li>
+                    <li class ="nav-item">
+                    <form asp-controller="Home" asp-action="Index" class="nav-link">
+                         <p style="margin:0;">
+                         <input type="text" name="search" placeholder="" >
+                         <input type="submit" value="Search">
+                         </p>
+                    </form>
+                       @* <div class="input-group rounded" >
+                            
+                            <input type="text" class="form-control rounded" name="search" placeholder="Search" aria-label="Search" aria-describedby="search-addon" />
+                            <inputasp-controller ="Home" asp-action="Index" type="submit" value="Search" class="fas fa-search">
+                            <span class="input-group-text border-0" id="search-addon">
+                                <i class="fas fa-search"></i>
+                            </span>
+                        </div>*@
                 </li>
             </ul>
             <partial name="_LoginPartial" />

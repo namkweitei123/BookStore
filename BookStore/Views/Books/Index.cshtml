@@ -7,7 +7,7 @@
 <h1>All Book</h1>
 
 <p>
-    <a asp-action="Create">Create New</a>
+    <a asp-action="Create" class="btn btn-outline-dark w-15">Create New</a>
 </p>
 <table class="table">
     <thead>
@@ -36,26 +36,27 @@
     <tbody>
 @foreach (var item in Model) {
         <tr>
+            <td style="width:100px">
+                @Html.DisplayFor(model => item.Title)
+            </td>
+             <td style="width:300px">
+             @Html.DisplayFor(model => item.Description)
+             </td>
+                    
             <td>
-                @Html.DisplayFor(modelItem => item.Title)
+                @Html.DisplayFor(model => item.Price)
+            </td>
+                <td style="width:100px">
+                @Html.DisplayFor(model => item.Category.Name)
             </td>
             <td>
-                @Html.DisplayFor(modelItem => item.Description)
-            </td>
-            <td>
-                @Html.DisplayFor(modelItem => item.Price)
-            </td>
-            <td>
-                @Html.DisplayFor(modelItem => item.CategoryId)
-            </td>
-            <td>
-                 <img id="profilePicture" style="width:150px;height:150px; object-fit:cover" src="data:image/*;base64,@(Convert.ToBase64String(item.ImageUrl))">
+                 <img id="profilePicture" style="width:170px;height:256px; object-fit:cover" src="data:image/*;base64,@(Convert.ToBase64String(item.ImageUrl))">
             </td>
             <td>
                     <a asp-action="Edit" asp-route-id="@item.Id" class="btn btn-outline-dark w-50">Edit</a>
                     <br>
                     <br>
-                    <a asp-action="Details" asp-route-id="@item.Id" class="btn btn-outline-dark w-50">Details</a>
+                    <a asp-controller="Home" asp-action="Details" asp-route-id="@item.Id" class="btn btn-outline-dark w-50">Details</a>
                     <br>
                     <br>
                     <a asp-action="Delete" asp-route-id="@item.Id" class="btn btn-outline-dark w-50">Delete</a>
